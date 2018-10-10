@@ -1,4 +1,14 @@
 # VideoSocialBookmark
+## Usage
+1. `$ mkdir workdir && cd workdir`
+2. `$ touch docker-compose.yml Dockerfile`
+3. Edit docker-compose.yml and Dockerfile.
+4. `$ git clone git@github.com:enpitut2018/VideoSocialBookmark.git`
+5. `$ docker-compose up --build -d`
+6. `$ docker-compose exec web /bin/bash`
+7. `# bundle install && rails db:setup && rails s`
+8. Access to [localhost:3000](http://localhost:3000).
+
 # README
 
 This README would normally document whatever steps are necessary to get the
@@ -7,12 +17,16 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+2.5.0
 
 * System dependencies
+docker(docker-compose)
 
 * Configuration
 
 * Database creation
+require postgresql
+`$ rails db:create`
 
 * Database initialization
 
