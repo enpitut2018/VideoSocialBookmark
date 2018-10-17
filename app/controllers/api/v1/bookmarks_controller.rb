@@ -1,4 +1,4 @@
-class BookmarksController < ApplicationController
+class Api::V1::BookmarksController < ApplicationController
   before_action :set_bookmark, only: [:show, :update, :destroy]
 
   # GET /bookmarks
