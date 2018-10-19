@@ -1,5 +1,6 @@
 class Api::V1::BookmarksController < ApplicationController
   before_action :set_bookmark, only: [:show, :update, :destroy]
+  before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy]
 
   # GET /bookmarks
   def index
@@ -16,11 +17,19 @@ class Api::V1::BookmarksController < ApplicationController
   # POST /bookmarks
   def create
     @bookmark = Bookmark.new(bookmark_params)
+    @bookmark.user_id = current_api_v1_user.id
 
-    if @bookmark.save
-      render json: @bookmark, status: :created, location: @bookmark
+    @entry = Entry.new(title: "title", url: @bookmark.original_url)
+    @bookmark.entry_id = @entry.id
+
+    if @entry.save
+      if @bookmark.save
+        render json: @bookmark, status: :created
+      else
+        render json: @bookmark.errors, status: :unprocessable_entity
+      end
     else
-      render json: @bookmark.errors, status: :unprocessable_entity
+      render json: @entry.errors, status: :unprocessable_entity
     end
   end
 
@@ -46,6 +55,6 @@ class Api::V1::BookmarksController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def bookmark_params
-      params.require(:bookmark).permit(:user_id, :thread_id, :comment, :star_count, :private, :original_url)
+      params.require(:bookmark).permit(:comment, :star_count, :private, :original_url)
     end
 end
