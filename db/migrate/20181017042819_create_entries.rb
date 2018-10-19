@@ -4,7 +4,6 @@ class CreateEntries < ActiveRecord::Migration[5.2]
       t.text :title
       t.text :url
 
-
       t.timestamps
     end
   end
