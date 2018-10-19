@@ -4,8 +4,8 @@ class CreateBookmarks < ActiveRecord::Migration[5.2]
       t.integer :user_id
       t.integer :thread_id
       t.text :comment
-      t.int :star_count
-      t.bool :private
+      t.integer :star_count
+      t.boolean :private
       t.string :original_url
 
       t.timestamps
