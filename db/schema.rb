@@ -10,17 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_17_042819) do
+ActiveRecord::Schema.define(version: 2018_10_17_042326) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "bookmarks", force: :cascade do |t|
+    t.string "user_id"
+    t.string "integer"
+    t.string "thread_id"
+    t.string "comment"
+    t.string "text"
+    t.string "star_count"
+    t.string "private"
+    t.string "bool"
+    t.string "original_url"
+    t.string "string"
   create_table "entries", force: :cascade do |t|
     t.text "title"
     t.text "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
