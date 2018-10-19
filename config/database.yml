@@ -19,9 +19,9 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  host: <%= ENV.fetch("DATABASE_HOST") %>
-  username: <%= ENV.fetch("DATABASE_USER") %>
-  password: <%= ENV.fetch("DATABASE_PASSWORD") %>
+  host: <%= ENV.fetch("DATABASE_HOST") {} %>
+  username: <%= ENV.fetch("DATABASE_USER") {} %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") {} %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
@@ -82,6 +82,4 @@ test:
 #
 production:
   <<: *default
-  database: video_social_bookmark_production
-  username: app
-  password: <%= ENV['APP_DATABASE_PASSWORD'] %>
+  host: <%= ENV.fetch("DATABASE_URL") {} %>
