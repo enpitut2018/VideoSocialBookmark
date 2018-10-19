@@ -6,6 +6,7 @@ Rails.application.routes.draw do
         controllers: {
           registrations: 'api/v1/auth/sign_up'
         }
+      get '*path', controller: 'api', action: 'rooting_error'
     end
   end
 
