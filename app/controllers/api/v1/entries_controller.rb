@@ -3,7 +3,7 @@ class Api::V1::EntriesController < ApplicationController
 
   # GET /entries/1
   def show
-    render json: @entry
+    render json: @entry, include: [ bookmarks: :user ]
   end
 
   # PATCH/PUT /entries/1
