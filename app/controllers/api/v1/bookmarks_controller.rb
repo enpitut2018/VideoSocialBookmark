@@ -19,17 +19,13 @@ class Api::V1::BookmarksController < ApplicationController
     @bookmark = Bookmark.new(bookmark_params)
     @bookmark.user_id = current_api_v1_user.id
 
-    @entry = Entry.new(title: "title", url: @bookmark.original_url)
+    @entry = Entry.create_or_get("title", @bookmark.original_url)
     @bookmark.entry_id = @entry.id
 
-    if @entry.save
-      if @bookmark.save
-        render json: @bookmark, status: :created
-      else
-        render json: @bookmark.errors, status: :unprocessable_entity
-      end
+    if @bookmark.save
+      render json: @bookmark, status: :created
     else
-      render json: @entry.errors, status: :unprocessable_entity
+      render json: @bookmark.errors, status: :unprocessable_entity
     end
   end
 
