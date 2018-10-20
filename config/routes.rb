@@ -2,9 +2,10 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :bookmarks
-      resources :entries
+      resources :entries, :only => :show
       get "/ranking/:page", to: "ranking#index"
-      
+      post "/entries/:entry_id", to: "bookmarks#create_by_entry_id"
+
       mount_devise_token_auth_for 'User', at: 'auth',
         controllers: {
           registrations: 'api/v1/auth/sign_up'

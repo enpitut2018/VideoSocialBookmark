@@ -4,6 +4,8 @@ require "open-uri"
 require "nokogiri"
 
 class Entry < ApplicationRecord
+  has_many :bookmarks
+
   def self.create_or_get(url)
     if Entry.exists?(url: url)
       return Entry.find_by(url: url)
@@ -31,6 +33,14 @@ class Entry < ApplicationRecord
       end
       doc = Nokogiri::HTML.parse(html, nil, charset)
       return doc.title
+    end
+  end
+
+  def count_bookmarks
+    if bookmarks.loaded?
+      bookmarks.to_a.count
+    else
+      bookmarks.count
     end
   end
 end
