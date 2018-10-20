@@ -1,4 +1,6 @@
 class Api::V1::BookmarksController < ActionController::API
+  include DeviseTokenAuth::Concerns::SetUserByToken
+
   before_action :set_bookmark, only: [:show, :update, :destroy]
   before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy]
 
