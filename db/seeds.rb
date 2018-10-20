@@ -5,3 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Entry.create(title: 'Star Wars',url: 'aaaaaaa.com')
+Entry.create(title: 'Wars',url: 'aaaaaaa.com')
+Entry.create(title: 'bbbbWars',url: 'aaaaaaa.com')
