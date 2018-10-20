@@ -4,7 +4,6 @@ class Api::V1::EntriesController < ApplicationController
   # GET /entries
   def index
     @entries = Entry.all
-
     render json: @entries
   end
 
