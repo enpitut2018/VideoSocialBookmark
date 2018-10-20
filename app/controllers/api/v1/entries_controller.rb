@@ -1,26 +1,9 @@
 class Api::V1::EntriesController < ApplicationController
   before_action :set_entry, only: [:show, :update, :destroy]
 
-  # GET /entries
-  def index
-    @entries = Entry.all
-    render json: @entries
-  end
-
   # GET /entries/1
   def show
-    render json: @entry
-  end
-
-  # POST /entries
-  def create
-    @entry = Entry.new(entry_params)
-
-    if @entry.save
-      render json: @entry, status: :created, location: @entry
-    else
-      render json: @entry.errors, status: :unprocessable_entity
-    end
+    render json: @entry, include: [ bookmarks: :user ]
   end
 
   # PATCH/PUT /entries/1
@@ -41,10 +24,11 @@ class Api::V1::EntriesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_entry
       @entry = Entry.find(params[:id])
+      @entry[:num_of_bookmarked] = @entry.count_bookmarks
     end
 
     # Only allow a trusted parameter "white list" through.
     def entry_params
-      params.fetch(:entry, {})
+      params.fetch(:entry, {}).permit(:id)
     end
 end
