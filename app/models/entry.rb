@@ -4,7 +4,7 @@ require "open-uri"
 require "nokogiri"
 
 class Entry < ApplicationRecord
-  def self.create_or_get(title, url)
+  def self.create_or_get(url)
     if Entry.exists?(url:  url)
       return Entry.find_by(url: url)
     end

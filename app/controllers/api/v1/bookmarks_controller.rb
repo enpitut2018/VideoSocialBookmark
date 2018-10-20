@@ -21,7 +21,7 @@ class Api::V1::BookmarksController < ActionController::API
     @bookmark = Bookmark.new(bookmark_params)
     @bookmark.user_id = current_api_v1_user.id
 
-    @entry = Entry.create_or_get("title", @bookmark.original_url)
+    @entry = Entry.create_or_get(@bookmark.original_url)
     @bookmark.entry_id = @entry.id
 
     if @bookmark.save
