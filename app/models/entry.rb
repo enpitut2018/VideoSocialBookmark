@@ -43,4 +43,8 @@ class Entry < ApplicationRecord
       bookmarks.count
     end
   end
+
+  def self.latest_n_bookmarks(n)
+    limit(n).preload(:bookmarks)
+  end
 end
