@@ -61,7 +61,12 @@ class Api::V1::BookmarksController < ActionController::API
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_bookmark
-      @bookmark = Bookmark.find(params[:id])
+      someones_bookmark = Bookmark.find(params[:id])
+      if someones_bookmark[:private]
+        @bookmark = someones_bookmark if someones_bookmark[:user_id] == current_api_v1_user.user_id
+      else
+        @bookmark = someones_bookmark
+      end
     end
 
     # Only allow a trusted parameter "white list" through.
