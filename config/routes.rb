@@ -3,6 +3,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :bookmarks
       resources :entries, :only => :show
+      namespace :entries do
+	resources :entry_stars, :only => [:create, :delete]
+      end
       get "/ranking/:page", to: "ranking#index"
       post "/entries/:entry_id", to: "bookmarks#create_by_entry_id"
 
