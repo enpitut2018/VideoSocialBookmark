@@ -6,7 +6,7 @@ class Api::V1::BookmarksController < ActionController::API
 
   # GET /bookmarks
   def index
-    @bookmarks = Bookmark.all
+    @bookmarks = Bookmark.all.where(private: false)
 
     render json: @bookmarks
   end
