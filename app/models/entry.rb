@@ -5,7 +5,7 @@ require "nokogiri"
 
 class Entry < ApplicationRecord
   has_many :bookmarks
-
+  has_many :entry_stars
   def self.create_or_get(url)
     if Entry.exists?(url: url)
       return Entry.find_by(url: url)
