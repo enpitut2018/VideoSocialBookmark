@@ -5,6 +5,7 @@ require "nokogiri"
 
 class Entry < ApplicationRecord
   has_many :bookmarks
+  has_many :users, through: :bookmarks
 
   def self.create_or_get(url)
     if Entry.exists?(url: url)
@@ -46,5 +47,11 @@ class Entry < ApplicationRecord
 
   def self.latest_n_bookmarks(n)
     limit(n).preload(:bookmarks)
+  end
+
+  def self.comments
+    bookmarks.map { |item|
+      item.comments
+    }.flatten
   end
 end
