@@ -28,7 +28,13 @@ class Entry < ApplicationRecord
 
   def self.get_title(uri)
     parsed_uri = URI::parse(uri)
-    uriToDoc(uri).title
+    title = uriToDoc(uri).title
+    case parsed_uri.host
+    when "www.youtube.com"
+      title[0..-11]
+    else
+      title
+    end
   end
 
   def self.update_num_of_bookmarked(entries)
