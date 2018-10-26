@@ -52,7 +52,11 @@ class Entry < ApplicationRecord
     when "www.dailymotion.com"
       title[0..-13].split(" - ")[0..-2].join(" - ")
     when "video.fc2.com"
-      title[0..-9]
+      if parsed_uri.path.split("/")[1] == "a"
+        title[0..-15]
+      else
+        title[0..-9]
+      end
     else
       title
     end
