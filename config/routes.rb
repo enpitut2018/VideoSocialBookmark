@@ -7,10 +7,15 @@ Rails.application.routes.draw do
       resources :bookmarks, only: %i[create]
       resources :entries, only: %i[show]
 
+      get '/entries/:entry_id/comments', to: 'comment#index'
+      post '/entries/:entry_id/comments', to: 'comment#create'
+
       get '/ranking/:page', to: 'ranking#index'
-      post '/entries/:entry_id', to: 'bookmarks#create_by_entry_id'
-      get '/user', to: 'users#index'
-      get '/userIcon', to: 'users#index_user_icon'
+
+      post '/entries', to: 'entries#create'
+
+      get '/current_user', to: 'users#index'
+      get '/current_user/icon', to: 'users#index_user_icon'
 
       mount_devise_token_auth_for 'User', at: 'auth',
                                           controllers: {

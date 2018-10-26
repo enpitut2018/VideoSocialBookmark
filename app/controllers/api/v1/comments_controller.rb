@@ -15,8 +15,12 @@ class Api::V1::CommentsController < ActionController::API
 
     @bookmark = Bookmark.find_by(entry_id: params[:entry_id])
     if @bookmark.nil?
-      redirect_to controller: 'api', action: 'routing_error'
-      @bookmark = Bookmark.new(entry_id: params[:entry_id], user_id: current_api_v1_user.id)
+      @entry = Entry.find(:entry_id)
+      if @entry.nil?
+        redirect_to controller: 'api', action: 'routing_error'
+      end
+
+      @bookmark = Bookmark.new(entry_id: @entry.id, user_id: current_api_v1_user.id)
       unless @bookmark.save
         redirect_to controller: 'api', action: 'routing_error'
       end

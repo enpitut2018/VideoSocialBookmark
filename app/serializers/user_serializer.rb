@@ -1,8 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :image, :entries
+  attributes :id, :name, :image
   has_many :entries, through: :bookmarks
-
-  def entries
-    object.
-  end
 end
