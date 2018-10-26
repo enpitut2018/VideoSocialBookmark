@@ -4,10 +4,8 @@ Rails.application.routes.draw do
       resources :bookmarks
       resources :entries, :only => :show
       namespace :stars do
-	    namespace :entries do
-          post "/:entry_id", to: "entry_stars#create"
-          delete "/:entry_id", to: "entry_stars#destroy"
-        end
+          post "/entry_stars/:entry_id", to: "entry_stars#create"
+          delete "/entry_stars/:entry_id", to: "entry_stars#destroy"
       end
       get "/ranking/:page", to: "ranking#index"
       post "/entries/:entry_id", to: "bookmarks#create_by_entry_id"
