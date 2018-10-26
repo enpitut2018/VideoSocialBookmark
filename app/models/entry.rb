@@ -2,6 +2,8 @@ require "uri"
 require "json"
 require "open-uri"
 require "nokogiri"
+require "net/http"
+require "json"
 
 class Entry < ApplicationRecord
   has_many :bookmarks
@@ -29,6 +31,12 @@ class Entry < ApplicationRecord
     when "www.dailymotion.com"
       id = parsed_uri.path.split("/")[-1]
       return "https://www.dailymotion.com/thumbnail/video/" + id
+    when "vimeo.com"
+      id = parsed_uri.path.split("/")[-1]
+      uri = "http://vimeo.com/api/v2/video/" + id + ".json"
+      json = getJson(uri)
+      return json[0]["thumbnail_large"]
+      puts result
     end
   end
 
@@ -76,5 +84,11 @@ class Entry < ApplicationRecord
       f.read
     end
     doc = Nokogiri::HTML.parse(html, nil, charset)
+  end
+
+  def self.getJson(uri)
+    uri = URI.parse(uri)
+    json = Net::HTTP.get(uri)
+    result = JSON.parse(json)
   end
 end
