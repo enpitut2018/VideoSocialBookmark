@@ -4,6 +4,7 @@ require "open-uri"
 require "nokogiri"
 require "net/http"
 require "json"
+require "kconv"
 
 class Entry < ApplicationRecord
   has_many :bookmarks
@@ -36,7 +37,9 @@ class Entry < ApplicationRecord
       uri = "http://vimeo.com/api/v2/video/" + id + ".json"
       json = getJson(uri)
       return json[0]["thumbnail_large"]
-      puts result
+    when "video.fc2.com"
+      html = Nokogiri::HTML(open(uri))
+      return html.css("#content_ad_head_wide > meta:nth-child(4)")[0].attributes["content"].value
     end
   end
 
@@ -48,6 +51,8 @@ class Entry < ApplicationRecord
       title[0..-11]
     when "www.dailymotion.com"
       title[0..-13].split(" - ")[0..-2].join(" - ")
+    when "video.fc2.com"
+      title[0..-9]
     else
       title
     end
@@ -78,12 +83,8 @@ class Entry < ApplicationRecord
   private
 
   def self.uriToDoc(uri)
-    charset = nil
-    html = open(uri) do |f|
-      charset = f.charset
-      f.read
-    end
-    doc = Nokogiri::HTML.parse(html, nil, charset)
+    html = open(uri, "r:binary").read
+    doc = Nokogiri::HTML(html.toutf8, nil, "utf-8")
   end
 
   def self.getJson(uri)
