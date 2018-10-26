@@ -23,6 +23,9 @@ class Entry < ApplicationRecord
     when "www.youtube.com"
       video_id = Hash[URI::decode_www_form(parsed_uri.query)]["v"]
       return "https://img.youtube.com/vi/" + video_id + "/default.jpg"
+    when "www.nicovideo.jp"
+      id = parsed_uri.path.split("/")[-1][2..-1]
+      return "http://tn-skr3.smilevideo.jp/smile?i=" + id + ".L"
     end
   end
 
