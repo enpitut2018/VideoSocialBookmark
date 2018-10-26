@@ -1,4 +1,4 @@
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :comment
+  attributes :id, :content
   belongs_to :bookmark
 end

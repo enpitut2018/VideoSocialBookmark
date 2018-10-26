@@ -6,17 +6,18 @@ class Api::V1::EntriesController < ApplicationController
 
   # POST entries
   def create
-    @entry = Entry.find_by(original_url: entry_params[:original_url])
     if @entry.nil?
-      @entry = Entry.new(original_url: entry_params[:original_url])
+      @entry = Entry.new(url: entry_params[:original_url])
+      @entry[:num_of_bookmarked] = @entry.count_bookmarks
+
       unless @entry.save
         redirect_to controller: 'api', action: 'routing_error'
       end
     end
 
-    @bookmark = Bookmark.find_by(entry_id: entry.id, user_id: current_api_v1_user.id)
+    @bookmark = Bookmark.find_by(entry_id: @entry.id, user_id: current_api_v1_user.id)
     if @bookmark.nil?
-      @bookmark = Bookmark.new(entry_id: entry.id, user_id: current_api_v1_user.id)
+      @bookmark = Bookmark.new(entry_id: @entry.id, user_id: current_api_v1_user.id)
       unless @bookmark.save
         redirect_to controller: 'api', action: 'routing_error'
       end
@@ -34,7 +35,7 @@ class Api::V1::EntriesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_entry
-      @entry = Entry.find_by(original_url: entry_params[:original_url])
+      @entry = Entry.find_by(url: entry_params[:original_url])
       unless @entry.nil?
         @entry[:num_of_bookmarked] = @entry.count_bookmarks
       end

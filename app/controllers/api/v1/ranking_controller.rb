@@ -9,7 +9,11 @@ class Api::V1::RankingController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ranking
-      @ranking = Entry.page(ranking_params[:page])
+      page = ranking_params[:page]
+      if page.nil?
+        page = 1
+      end
+      @ranking = Entry.page(page)
       @ranking.each do |entry|
         entry[:num_of_bookmarked] = entry.count_bookmarks
       end
