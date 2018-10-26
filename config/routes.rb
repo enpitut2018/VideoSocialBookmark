@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get "/ranking/:page", to: "ranking#index"
       post "/entries/:entry_id", to: "bookmarks#create_by_entry_id"
       resources :users
+      get "/users/:id/bookmarks", to: "users#bookmarks"
 
       mount_devise_token_auth_for 'User', at: 'auth',
         controllers: {
