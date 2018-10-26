@@ -49,27 +49,6 @@ class Entry < ApplicationRecord
     return title, thumbnail
   end
 
-  def self.get_title(uri)
-    parsed_uri = URI::parse(uri)
-    title = uriToDoc(uri).title
-    case parsed_uri.host
-    when "www.youtube.com"
-      title[0..-11]
-    when "www.dailymotion.com"
-      title[0..-13].split(" - ")[0..-2].join(" - ")
-    when "video.fc2.com"
-      if parsed_uri.path.split("/")[1] == "a"
-        title[0..-15]
-      else
-        title[0..-9]
-      end
-    when "www.xvideos.com"
-      title[0..-14]
-    else
-      title
-    end
-  end
-
   def self.update_num_of_bookmarked(entries)
     entries.each { |e| e.update_attributes(num_of_bookmarked: e.count_bookmarks) }
   end
