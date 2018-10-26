@@ -38,6 +38,9 @@ gem 'rack-cors'
 # scraping
 gem 'nokogiri'
 
+# video data extractor
+gem 'youtube-dl.rb'
+
 # serializer
 gem 'active_model_serializers'
 

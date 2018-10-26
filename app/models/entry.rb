@@ -5,6 +5,7 @@ require "nokogiri"
 require "net/http"
 require "json"
 require "kconv"
+require "youtube-dl"
 
 class Entry < ApplicationRecord
   has_many :bookmarks
@@ -43,6 +44,13 @@ class Entry < ApplicationRecord
     when "www.xvideos.com"
       html = Nokogiri::HTML(open(uri))
       return html.css("head > meta:nth-child(14)")[0].attributes["content"].value
+    else
+      options = {
+        'dump-json': true,
+      }
+      video = YoutubeDL::Video.new uri, options
+      information = video.information
+      return information[:thumbnails][0][:url]
     end
   end
 
