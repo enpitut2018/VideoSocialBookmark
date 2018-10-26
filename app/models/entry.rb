@@ -40,6 +40,9 @@ class Entry < ApplicationRecord
     when "video.fc2.com"
       html = Nokogiri::HTML(open(uri))
       return html.css("#content_ad_head_wide > meta:nth-child(4)")[0].attributes["content"].value
+    when "www.xvideos.com"
+      html = Nokogiri::HTML(open(uri))
+      return html.css("head > meta:nth-child(14)")[0].attributes["content"].value
     end
   end
 
@@ -57,6 +60,8 @@ class Entry < ApplicationRecord
       else
         title[0..-9]
       end
+    when "www.xvideos.com"
+      title[0..-14]
     else
       title
     end
