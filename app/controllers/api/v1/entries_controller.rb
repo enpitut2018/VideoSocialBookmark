@@ -1,7 +1,14 @@
 class Api::V1::EntriesController < ApplicationController
   include DeviseTokenAuth::Concerns::SetUserByToken
 
+  before_action :set_entry, only: [:show]
   before_action :authenticate_api_v1_user!, only: [:create]
+
+  # GET /entries/:id
+  def show
+    # render json: @entry, include: [ bookmarks: [:user, [:comments]] ]
+    render json: @entry, include: [ comments: :user ]
+  end
 
   # POST entries
   def create
@@ -27,7 +34,10 @@ class Api::V1::EntriesController < ApplicationController
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
+    def set_entry
+      @entry = Entry.find(params[:id])
+    end
+
     def entry_params
       params.fetch(:entry, {}).permit(:original_url)
     end

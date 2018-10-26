@@ -8,7 +8,7 @@ class Api::V1::UsersController < ActionController::API
     render json: current_api_v1_user
   end
 
-  # GET /userIcon
+  # GET /current_user/icon
   def index_user_icon
     render json: { "userIcon": { "url": current_api_v1_user.image } }
   end

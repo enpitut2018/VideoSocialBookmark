@@ -6,6 +6,7 @@ require "nokogiri"
 class Entry < ApplicationRecord
   has_many :bookmarks
   has_many :users, through: :bookmarks
+  has_many :comments, through: :bookmarks
 
   def self.create_or_get(url)
     if Entry.exists?(url: url)
