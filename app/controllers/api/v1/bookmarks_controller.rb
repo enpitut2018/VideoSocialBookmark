@@ -1,7 +1,5 @@
 class Api::V1::BookmarksController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
-
-  before_action :set_bookmark, only: [:show, :update, :destroy]
   before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy]
 
   # GET /bookmarks
@@ -44,20 +42,6 @@ class Api::V1::BookmarksController < ActionController::API
     end
   end
 
-  # PATCH/PUT /bookmarks/1
-  def update
-    if @bookmark.update(bookmark_params)
-      render json: @bookmark
-    else
-      render json: @bookmark.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /bookmarks/1
-  def destroy
-    @bookmark.destroy
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_bookmark
@@ -71,10 +55,6 @@ class Api::V1::BookmarksController < ActionController::API
 
     # Only allow a trusted parameter "white list" through.
     def bookmark_params
-      params.require(:bookmark).permit(:comment, :star_count, :private, :original_url)
-    end
-
-    def create_by_entry_id_params
-      params.require(:bookmark).permit(:comment)
+      params.require(:bookmark).permit(:star_count, :private, :original_url)
     end
 end
