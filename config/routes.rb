@@ -7,8 +7,8 @@ Rails.application.routes.draw do
       resources :bookmarks, only: %i[create]
       resources :entries, only: %i[show]
       resources :users
-      get '/entries/:entry_id/comments', to: 'comment#index'
-      post '/entries/:entry_id/comments', to: 'comment#create'
+      get '/entries/:entry_id/comments', to: 'comments#index'
+      post '/entries/:entry_id/comments', to: 'comments#create'
       get '/trend/:page', to: 'trend#index'
       get '/trend/:page/preload', to: 'trend#preload'
 
