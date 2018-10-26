@@ -1,0 +1,2 @@
+class EntryStarsController < ApplicationController
+end

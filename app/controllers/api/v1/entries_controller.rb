@@ -15,6 +15,10 @@ class Api::V1::EntriesController < ApplicationController
     end
   end
 
+  def create
+	
+  end
+
   # DELETE /entries/1
   def destroy
     @entry.destroy
