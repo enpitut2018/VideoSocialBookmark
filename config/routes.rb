@@ -3,8 +3,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :bookmarks
       resources :entries, :only => :show
-      get "/ranking/:page", to: "ranking#index"
-      get "/ranking/:page/preload", to: "ranking#preload"
+      get "/trend/:page", to: "trend#index"
+      get "/trend/:page/preload", to: "trend#preload"
       post "/entries/:entry_id", to: "bookmarks#create_by_entry_id"
 
       mount_devise_token_auth_for 'User', at: 'auth',
