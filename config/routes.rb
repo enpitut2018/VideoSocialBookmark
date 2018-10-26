@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :comments, only: %i[index create]
       resources :bookmarks, only: %i[create]
       resources :entries, only: %i[show]
+      resources :users
       get '/entries/:entry_id/comments', to: 'comment#index'
       post '/entries/:entry_id/comments', to: 'comment#create'
       get '/trend/:page', to: 'trend#index'
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
 
       get '/current_user', to: 'users#index'
       get '/current_user/icon', to: 'users#index_user_icon'
+      get "/users/:id/bookmarks", to: "users#bookmarks"
 
       mount_devise_token_auth_for 'User', at: 'auth',
                                           controllers: {
