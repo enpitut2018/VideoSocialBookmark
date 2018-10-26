@@ -16,42 +16,37 @@ class Entry < ApplicationRecord
     if Entry.exists?(url: url)
       return Entry.find_by(url: url)
     end
-    return Entry.create(title: Entry.get_title(url),
+    title, thumbnail = Entry.get_video_data(url)
+    return Entry.create(title: title,
                         url: url,
-                        thumbnail_url: Entry.get_thumbnail(url))
+                        thumbnail_url: thumbnail)
   end
 
-  def self.get_thumbnail(uri)
+  def self.get_video_data(uri)
     parsed_uri = URI::parse(uri)
     case parsed_uri.host
     when "www.youtube.com"
-      video_id = Hash[URI::decode_www_form(parsed_uri.query)]["v"]
-      return "https://img.youtube.com/vi/" + video_id + "/default.jpg"
+      id = Hash[URI::decode_www_form(parsed_uri.query)]["v"]
+      thumbnail = "https://img.youtube.com/vi/" + id + "/default.jpg"
+      title = uriToDoc(uri).title[0..-11]
     when "www.nicovideo.jp"
       id = parsed_uri.path.split("/")[-1][2..-1]
-      return "http://tn-skr3.smilevideo.jp/smile?i=" + id + ".L"
+      thumbnail = "http://tn-skr3.smilevideo.jp/smile?i=" + id + ".L"
+      title = uriToDoc(uri).title
     when "www.dailymotion.com"
       id = parsed_uri.path.split("/")[-1]
-      return "https://www.dailymotion.com/thumbnail/video/" + id
-    when "vimeo.com"
-      id = parsed_uri.path.split("/")[-1]
-      uri = "http://vimeo.com/api/v2/video/" + id + ".json"
-      json = getJson(uri)
-      return json[0]["thumbnail_large"]
-    when "video.fc2.com"
-      html = Nokogiri::HTML(open(uri))
-      return html.css("#content_ad_head_wide > meta:nth-child(4)")[0].attributes["content"].value
-    when "www.xvideos.com"
-      html = Nokogiri::HTML(open(uri))
-      return html.css("head > meta:nth-child(14)")[0].attributes["content"].value
+      thumbnail = "https://www.dailymotion.com/thumbnail/video/" + id
+      title = uriToDoc(uri).title[0..-13].split(" - ")[0..-2].join(" - ")
     else
       options = {
         'dump-json': true,
       }
       video = YoutubeDL::Video.new uri, options
       information = video.information
-      return information[:thumbnails][0][:url]
+      thumbnail = information[:thumbnails][0][:url]
+      title = information[:title]
     end
+    return title, thumbnail
   end
 
   def self.get_title(uri)
