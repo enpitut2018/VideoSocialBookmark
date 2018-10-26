@@ -4,9 +4,10 @@
 2. `$ touch docker-compose.yml Dockerfile`
 3. Edit docker-compose.yml and Dockerfile.
 4. `$ git clone git@github.com:enpitut2018/VideoSocialBookmark.git`
+5. `$ git submodule init && git submodule update`
 5. `$ docker-compose up --build -d`
 6. `$ docker-compose exec web /bin/bash`
-7. `# bundle install && rails db:setup && rails s`
+7. `# bundle install && yarn postinstall && rails db:setup && rails s`
 8. Access to [localhost:3000](http://localhost:3000).
 
 # README
