@@ -17,8 +17,7 @@ class Api::V1::TrendController < ApplicationController
       @trend = Entry
         .page(trend_params[:page])
         .includes(bookmarks: :user)
-        .each{|e| e[:num_of_bookmarked] = e.bookmarks.size}
-        .sort_by(&:num_of_bookmarked)
+        .sort_by{ |entry| entry.bookmarks.size}
         .reverse
     end
 
