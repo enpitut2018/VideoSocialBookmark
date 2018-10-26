@@ -1,7 +1,7 @@
 class Api::V1::UsersController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :authenticate_api_v1_user!
+  before_action :authenticate_api_v1_user!, only: [:show]
 
   # GET /user
   def index
@@ -12,8 +12,6 @@ class Api::V1::UsersController < ActionController::API
   def index_user_icon
     render json: { "userIcon": { "url": current_api_v1_user.image } }
   end
-end
-  before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy]
 
   # GET /users/:id
   def show
