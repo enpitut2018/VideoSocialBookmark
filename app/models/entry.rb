@@ -26,6 +26,9 @@ class Entry < ApplicationRecord
     when "www.nicovideo.jp"
       id = parsed_uri.path.split("/")[-1][2..-1]
       return "http://tn-skr3.smilevideo.jp/smile?i=" + id + ".L"
+    when "www.dailymotion.com"
+      id = parsed_uri.path.split("/")[-1]
+      return "https://www.dailymotion.com/thumbnail/video/" + id
     end
   end
 
@@ -35,6 +38,8 @@ class Entry < ApplicationRecord
     case parsed_uri.host
     when "www.youtube.com"
       title[0..-11]
+    when "www.dailymotion.com"
+      title[0..-13].split(" - ")[0..-2].join(" - ")
     else
       title
     end
