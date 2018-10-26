@@ -37,6 +37,10 @@ class Entry < ApplicationRecord
     end
   end
 
+  def self.update_num_of_bookmarked(entries)
+    entries.each { |e| e.update_attributes(num_of_bookmarked: e.count_bookmarks) }
+  end
+
   def count_bookmarks
     if bookmarks.loaded?
       bookmarks.to_a.count

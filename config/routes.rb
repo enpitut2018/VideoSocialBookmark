@@ -6,11 +6,9 @@ Rails.application.routes.draw do
       resources :comments, only: %i[index create]
       resources :bookmarks, only: %i[create]
       resources :entries, only: %i[show]
-
       get '/entries/:entry_id/comments', to: 'comment#index'
       post '/entries/:entry_id/comments', to: 'comment#create'
-
-      get '/ranking/:page', to: 'ranking#index'
+      get '/trend/:page', to: 'trend#index'
 
       post '/entries', to: 'entries#create'
 
