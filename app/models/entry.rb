@@ -1,5 +1,5 @@
 require "uri"
-require 'json'
+require "json"
 require "open-uri"
 require "nokogiri"
 
@@ -19,7 +19,8 @@ class Entry < ApplicationRecord
 
   def self.get_thumbnail(uri)
     parsed_uri = URI::parse(uri)
-    if parsed_uri.host == "www.youtube.com"
+    case parsed_uri.host
+    when "www.youtube.com"
       video_id = Hash[URI::decode_www_form(parsed_uri.query)]["v"]
       return "https://img.youtube.com/vi/" + video_id + "/default.jpg"
     end
@@ -27,15 +28,7 @@ class Entry < ApplicationRecord
 
   def self.get_title(uri)
     parsed_uri = URI::parse(uri)
-    if parsed_uri.host == "www.youtube.com"
-      charset = nil
-      html = open(uri) do |f|
-        charset = f.charset
-        f.read
-      end
-      doc = Nokogiri::HTML.parse(html, nil, charset)
-      return doc.title
-    end
+    uriToDoc(uri).title
   end
 
   def self.update_num_of_bookmarked(entries)
@@ -58,5 +51,16 @@ class Entry < ApplicationRecord
     bookmarks.map { |item|
       item.comments
     }.flatten
+  end
+
+  private
+
+  def self.uriToDoc(uri)
+    charset = nil
+    html = open(uri) do |f|
+      charset = f.charset
+      f.read
+    end
+    doc = Nokogiri::HTML.parse(html, nil, charset)
   end
 end
