@@ -6,7 +6,6 @@ class Api::V1::EntriesController < ApplicationController
 
   # GET /entries/:id
   def show
-    # render json: @entry, include: [ bookmarks: [:user, [:comments]] ]
     render json: @entry, include: [ comments: :user ]
   end
 

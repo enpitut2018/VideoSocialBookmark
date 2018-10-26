@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get '/entries/:entry_id/comments', to: 'comment#index'
       post '/entries/:entry_id/comments', to: 'comment#create'
       get '/trend/:page', to: 'trend#index'
+      get '/trend/:page/preload', to: 'trend#preload'
 
       post '/entries', to: 'entries#create'
 

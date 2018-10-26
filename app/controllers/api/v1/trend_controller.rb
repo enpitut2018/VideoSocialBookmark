@@ -1,22 +1,29 @@
 class Api::V1::TrendController < ApplicationController
-  before_action :set_trend, only: [:index]
+  before_action :set_trend, only: [:index, :preload]
 
   # GET /trend/:page
   def index
-    render json: @trend
+    render json: @trend, include: ''
+  end
+
+  # GET /trend/:page/preload
+  def preload
+    render json: @trend, include: 'bookmarks.user'
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_trend
-      # Entry.find_each do |entry|
-      #   entry[:num_of_bookmarked] = entry.count_bookmarks
-      #   byebug
-      # end
-      @trend = Entry.update_num_of_bookmarked(
-        Entry.limit(100)
-             .reorder!(num_of_bookmarked: :desc)
-             .page(params[:page])
-      )
+      @trend = Entry
+        .page(trend_params[:page])
+        .includes(bookmarks: :user)
+        .each{|e| e[:num_of_bookmarked] = e.bookmarks.size}
+        .sort_by(&:num_of_bookmarked)
+        .reverse
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def trend_params
+      params.permit(:page)
     end
 end
