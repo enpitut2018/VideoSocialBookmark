@@ -2,6 +2,7 @@
 
 class User < ActiveRecord::Base
   has_many :bookmarks
+  has_many :entry_stars
   has_many :entries, through: :bookmarks
   has_many :comments, through: :bookmarks
 
