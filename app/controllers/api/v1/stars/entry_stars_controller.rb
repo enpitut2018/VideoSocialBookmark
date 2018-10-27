@@ -1,23 +1,40 @@
 class Api::V1::Stars::EntryStarsController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :entry_star_params, only: [:create, :destroy]
-  before_action :authenticate_api_v1_user!, only: [:create, :destroy]
+  before_action :set_entry_star, only: %i[destroy show]
+  before_action :authenticate_api_v1_user!, only: %i[create destroy show]
 
-  # POST /stars/entries/1
-  def create
-    entry_star = EntryStar.create(user_id: current_api_v1_user.id, entry_id: params[:entry_id])
-    render json: entry_star
+  # GET /stars/entries/:entry_id
+  def show
+    if @entry_star.nil?
+      render json: { enabled: false }
+    else
+      render json: @entry_star
+    end
   end
 
-  # DELETE /stars/entries/1
+  # POST /stars/entries/:entry_id
+  def create
+    @entry_star = Entry.new(use_id: current_api_v1_user.id,
+                            entry_id: params[:entry_id])
+    if @entry_star.save
+      render json: @entry_star
+    else
+      redirect_to controller: 'api', action: 'routing_error'
+    end
+  end
+
+  # DELETE /stars/entries/:entry_id
   def destroy
-    entry_star = EntryStar.find_by(user_id: current_api_v1_user.id, entry_id: params[:entry_id])
-    entry_star.destroy if entry_star
+    @entry_star = EntryStar.find_by(user_id: current_api_v1_user.id,
+                                    entry_id: params[:entry_id])
+    @entry_star&.destroy
   end
 
   private
-    def entry_star_params
-      params.require(:entry_id)
-    end
+
+  def set_entry_star
+    @entry_star = EntryStar.find_by(user_id: current_api_v1_user.id,
+                                    entry_id: params[:entry_id])
+  end
 end

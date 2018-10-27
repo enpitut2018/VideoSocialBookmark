@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       post '/entries/:entry_id/comments', to: 'comments#create'
 
       namespace :stars do
+        get '/entries/:entry_id', to: 'entry_stars#show'
         post '/entries/:entry_id/', to: 'entry_stars#create'
         delete '/entries/:entry_id/', to: 'entry_stars#destroy'
       end
