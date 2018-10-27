@@ -5,6 +5,7 @@ require "nokogiri"
 
 class Entry < ApplicationRecord
   has_many :bookmarks
+  has_many :entry_stars
   has_many :users, through: :bookmarks
   has_many :comments, through: :bookmarks
 
