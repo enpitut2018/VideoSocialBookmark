@@ -26,8 +26,6 @@ class Api::V1::Stars::EntryStarsController < ActionController::API
 
   # DELETE /stars/entries/:entry_id
   def destroy
-    @entry_star = EntryStar.find_by(user_id: current_api_v1_user.id,
-                                    entry_id: params[:entry_id])
     @entry_star&.destroy
   end
 
