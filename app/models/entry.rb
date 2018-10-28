@@ -5,6 +5,9 @@ require "nokogiri"
 
 class Entry < ApplicationRecord
   has_many :bookmarks
+  has_many :entry_stars
+  has_many :users, through: :bookmarks
+  has_many :comments, through: :bookmarks
 
   def self.create_or_get(url)
     if Entry.exists?(url: url)
@@ -36,6 +39,10 @@ class Entry < ApplicationRecord
     end
   end
 
+  def self.update_num_of_bookmarked(entries)
+    entries.each { |e| e.update_attributes(num_of_bookmarked: e.count_bookmarks) }
+  end
+
   def count_bookmarks
     if bookmarks.loaded?
       bookmarks.to_a.count
@@ -46,5 +53,11 @@ class Entry < ApplicationRecord
 
   def self.latest_n_bookmarks(n)
     limit(n).preload(:bookmarks)
+  end
+
+  def self.comments
+    bookmarks.map { |item|
+      item.comments
+    }.flatten
   end
 end
