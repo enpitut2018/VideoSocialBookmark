@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+
       resources :comments, only: %i[index create]
       resources :bookmarks, only: %i[create]
       resources :entries, only: %i[show]
@@ -15,6 +16,8 @@ Rails.application.routes.draw do
         post '/entries/:entry_id/', to: 'entry_stars#create'
         delete '/entries/:entry_id/', to: 'entry_stars#destroy'
       end
+
+      get "/search/entry", to: "search#entry"
 
       get '/trend/:page', to: 'trend#index'
       get '/trend/:page/preload', to: 'trend#preload'
