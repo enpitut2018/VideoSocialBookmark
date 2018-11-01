@@ -24,5 +24,4 @@ class Api::V1::UsersController < ActionController::API
     user = User.find_by(id: params[:id])
     render json: user.bookmarks, include: :entry
   end
-
 end

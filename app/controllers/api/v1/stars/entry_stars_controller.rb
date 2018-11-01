@@ -11,9 +11,7 @@ class Api::V1::Stars::EntryStarsController < ActionController::API
 
   # POST /stars/entries/:entry_id
   def create
-    if @entry_star.present?
-      redirect_to controller: 'api', action: 'routing_error'
-    end
+    redirect_to controller: 'api', action: 'routing_error' if @entry_star.present?
 
     @entry_star = EntryStar.new(user_id: current_api_v1_user.id,
                                 entry_id: params[:entry_id])

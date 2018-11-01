@@ -15,17 +15,16 @@ class Api::V1::TrendController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_trend
-      @trend = Entry
-        .page(trend_params[:page])
-        .includes(bookmarks: :user)
-        .sort_by{ |entry| entry.bookmarks.size}
-        .reverse
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def trend_params
-      params.permit(:page)
-    end
+  def set_trend
+    @trend = Entry
+      .page(trend_params[:page])
+      .includes(bookmarks: :user)
+      .sort_by{ |entry| entry.bookmarks.size}
+      .reverse
+  end
+
+  def trend_params
+    params.permit(:page)
+  end
 end

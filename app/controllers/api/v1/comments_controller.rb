@@ -1,33 +1,20 @@
 class Api::V1::CommentsController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy]
+  before_action :set_entry, only: %i[index create]
+  before_action :authenticate_api_v1_user!, only: %i[create]
 
   # GET /entries/:entry_id/comments
   def index
-    @comments = Entry.find(params[:entry_id]).comments
+    @comments = @entry.comments
     render json: @comments
   end
 
   # POST entries/:entry_id/comments
   def create
-    @comment = Comment.new(comment_params)
-
-    @bookmark = Bookmark.find_by(entry_id: params[:entry_id])
-    if @bookmark.nil?
-      @entry = Entry.find(:entry_id)
-      if @entry.nil?
-        redirect_to controller: 'api', action: 'routing_error'
-      end
-
-      @bookmark = Bookmark.new(entry_id: @entry.id, user_id: current_api_v1_user.id)
-      unless @bookmark.save
-        redirect_to controller: 'api', action: 'routing_error'
-      end
-    end
-    @comment.bookmark_id = @bookmark.id
-
-    if @comment.save
+    @comments = @entry.comments.new(comment_params)
+    @comments[:user_id] = current_api_v1_user.id
+    if @comments.save
       render json: @bookmark, status: :created
     else
       render json: @bookmark.errors, status: :unprocessable_entity
@@ -35,8 +22,13 @@ class Api::V1::CommentsController < ActionController::API
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
-    def comment_params
-      params.require(:comment).permit(:content)
-    end
+
+  def set_entry
+    @entry = Entry.find(params[:entry_id])
+    redirect_to controller: 'api', action: 'routing_error' if @entry.nil?
+  end
+
+  def comment_params
+    params.require(:comment).permit(:content)
+  end
 end
