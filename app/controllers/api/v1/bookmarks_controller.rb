@@ -18,8 +18,10 @@ class Api::V1::BookmarksController < ActionController::API
     @bookmark = Bookmark.new(bookmark_params)
     @bookmark.user_id = current_api_v1_user.id
 
-    @entry = Entry.create_or_get(@bookmark.original_url)
-    @bookmark.entry_id = @entry.id
+    if @bookmark[:entry_id].nil?
+      @entry = Entry.create_or_get(@bookmark.original_url)
+      @bookmark.entry_id = @entry.id
+    end
 
     if @bookmark.save
       render json: @bookmark, status: :created
@@ -50,6 +52,6 @@ class Api::V1::BookmarksController < ActionController::API
   end
 
   def bookmark_params
-    params.require(:bookmark).permit(:star_count, :private, :original_url)
+    params.require(:bookmark).permit(:entry_id, :star_count, :private, :original_url)
   end
 end
