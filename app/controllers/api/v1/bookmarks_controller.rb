@@ -19,11 +19,9 @@ class Api::V1::BookmarksController < ActionController::API
     @bookmark = Bookmark.new(bookmark_params)
     @bookmark.user_id = current_api_v1_user.id
 
-    if @entry.nil?
-      @entry = Entry.create_or_get(@bookmark.original_url)
+    if !Entry.exists?(id: @bookmark.entry_id)
+      redirect_to controller: 'api', action: 'routing_error'
     end
-
-    @bookmark.entry_id = @entry.id
 
     if @bookmark.save
       render json: @bookmark, status: :created
@@ -55,6 +53,6 @@ class Api::V1::BookmarksController < ActionController::API
 
     # Only allow a trusted parameter "white list" through.
     def bookmark_params
-      params.require(:bookmark).permit(:star_count, :private, :original_url)
+      params.require(:bookmark).permit(:private, :entry_id)
     end
 end
