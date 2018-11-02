@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Api::V1::BookmarksController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
-  before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy]
+  before_action :authenticate_api_v1_user!, only: %i[create update destroy]
 
   # GET /bookmarks
   def index
@@ -19,9 +21,7 @@ class Api::V1::BookmarksController < ActionController::API
     @bookmark = Bookmark.new(bookmark_params)
     @bookmark.user_id = current_api_v1_user.id
 
-    if @entry.nil?
-      @entry = Entry.create_or_get(@bookmark.original_url)
-    end
+    @entry = Entry.create_or_get(@bookmark.original_url) if @entry.nil?
 
     @bookmark.entry_id = @entry.id
 

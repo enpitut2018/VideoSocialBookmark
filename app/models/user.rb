@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  has_many :bookmarks, :dependent => :destroy
-  has_many :entry_stars, :dependent => :destroy
+  has_many :bookmarks, dependent: :destroy
+  has_many :entry_stars, dependent: :destroy
   has_many :entries, through: :bookmarks
   has_many :comments, through: :bookmarks
 

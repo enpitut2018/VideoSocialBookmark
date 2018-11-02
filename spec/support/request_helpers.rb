@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RequestSpecHelper
   module JsonHelpers
     def json
@@ -5,7 +7,7 @@ module RequestSpecHelper
     end
   end
 
-  def login()
+  def login
     post "/api/v1/auth/sign_in", params: { format: "json", email: "TEST1@example.com", password: "PASSWORD1" }
     @headers = response.headers
     @headers = @headers.map { |k, v| [k, v] }.to_h
@@ -23,6 +25,6 @@ module RequestSpecHelper
     black_list.each do |key|
       data.delete(key.to_s)
     end
-    expect(data.to_json()).to match_snapshot(api_v1_url + "---" + title)
+    expect(data.to_json).to match_snapshot(api_v1_url + "---" + title)
   end
 end

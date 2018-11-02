@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::EntriesController < ApplicationController
   include DeviseTokenAuth::Concerns::SetUserByToken
 
@@ -17,9 +19,7 @@ class Api::V1::EntriesController < ApplicationController
     @bookmark = Bookmark.find_by(entry_id: @entry.id, user_id: current_api_v1_user.id)
     if @bookmark.nil?
       @bookmark = Bookmark.new(entry_id: @entry.id, user_id: current_api_v1_user.id)
-      unless @bookmark.save
-        redirect_to controller: 'api', action: 'routing_error'
-      end
+      redirect_to controller: "api", action: "routing_error" unless @bookmark.save
     end
 
     @comment = Comment.new(comment_params)

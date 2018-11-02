@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Api::V1::CommentsController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy]
+  before_action :authenticate_api_v1_user!, only: %i[create update destroy]
 
   # GET /entries/:entry_id/comments
   def index
@@ -16,14 +18,10 @@ class Api::V1::CommentsController < ActionController::API
     @bookmark = Bookmark.find_by(entry_id: params[:entry_id])
     if @bookmark.nil?
       @entry = Entry.find(:entry_id)
-      if @entry.nil?
-        redirect_to controller: "api", action: "routing_error"
-      end
+      redirect_to controller: "api", action: "routing_error" if @entry.nil?
 
       @bookmark = Bookmark.new(entry_id: @entry.id, user_id: current_api_v1_user.id)
-      unless @bookmark.save
-        redirect_to controller: "api", action: "routing_error"
-      end
+      redirect_to controller: "api", action: "routing_error" unless @bookmark.save
     end
     @comment.bookmark_id = @bookmark.id
 

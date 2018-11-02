@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class Api::V1::TrendController < ApplicationController
-  before_action :set_trend, only: [:index, :preload]
+  before_action :set_trend, only: %i[index preload]
 
   # GET /trend/:page
   def index
-    render json: @trend, include: ''
+    render json: @trend, include: ""
   end
 
   # GET /trend/:page/preload
   def preload
-    render json: @trend, include: 'bookmarks.user'
+    render json: @trend, include: "bookmarks.user"
   end
 
   private
