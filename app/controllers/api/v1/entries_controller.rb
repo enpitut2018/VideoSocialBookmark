@@ -8,41 +8,36 @@ class Api::V1::EntriesController < ApplicationController
 
   # GET /entries/:id
   def show
-    render json: @entry.includes(comment: :user), include: [comments: :user]
+    render json: @entry, include: [comments: :user]
   end
 
-  # POST entries
+  # POST /entries
   def create
-    @entry = Entry.create_or_get(entry_params[:original_url])
-    @entry[:num_of_bookmarked] = @entry.safe_num_of_bookmarked
+    entry = Entry.find_or_initialize_by_original_url(entry_params[:original_url])
+    render json: entry.errors, status: :internal_server_error unless entry.save
 
-    @bookmark = Bookmark.find_by(entry_id: @entry.id, user_id: current_api_v1_user.id)
-    if @bookmark.nil?
-      @bookmark = Bookmark.new(entry_id: @entry.id, user_id: current_api_v1_user.id)
-      redirect_to controller: "api", action: "routing_error" unless @bookmark.save
-    end
+    bookmark = entry.bookmarks.find_or_initialize_by(user_id: current_api_v1_user.id)
+    render json: bookmark.errors, status: :internal_server_error unless bookmark.save
 
-    @comment = Comment.new(comment_params)
-    @comment.bookmark_id = @bookmark.id
-
-    if @comment.save
-      render json: @comment, status: :created
+    comment = bookmark.comments.new(comment_params)
+    if comment.save
+      render json: comment, status: :created
     else
-      render json: @comment.errors, status: :unprocessable_entity
+      render json: comment.errors, status: :unprocessable_entity
     end
   end
 
   private
 
   def set_entry
-    @entry = Entry.find(params[:id])
+    @entry = Entry.includes(comments: { bookmark: :user }).find(params[:id])
   end
 
   def entry_params
-    params.fetch(:entry, {}).permit(:original_url)
+    params.require(:entry).permit(:original_url)
   end
 
   def comment_params
-    params.fetch(:comment, {}).permit(:content)
+    params.fetch(:comment, content: "").permit(:content)
   end
 end

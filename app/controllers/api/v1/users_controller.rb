@@ -23,12 +23,12 @@ class Api::V1::UsersController < ActionController::API
 
   # GET /users/:id/bookmarks
   def bookmarks
-    render json: @user.bookmarks.includes(entry: :bookmarks), include: :entry
+    render json: @user.bookmarks.includes(:entry), include: :entry
   end
 
   private
 
   def set_user
     @user = User.find_by(id: params[:id])
-end
+  end
 end
