@@ -8,7 +8,7 @@ class Api::V1::EntriesController < ApplicationController
 
   # GET /entries/:id
   def show
-    render json: @entry, include: [comments: :user]
+    render json: @entry.includes(comment: :user), include: [comments: :user]
   end
 
   # POST entries
