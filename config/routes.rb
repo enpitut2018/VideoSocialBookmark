@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       resources :bookmarks, only: %i[create]
       resources :entries, only: %i[show]
       resources :users
+
+      delete '/bookmarks/:entry_id', to: 'bookmarks#destroy'
+
       get '/entries/:entry_id/comments', to: 'comments#index'
       post '/entries/:entry_id/comments', to: 'comments#create'
 

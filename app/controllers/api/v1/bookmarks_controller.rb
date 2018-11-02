@@ -1,6 +1,7 @@
 class Api::V1::BookmarksController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :authenticate_api_v1_user!, only: %i[create update destroy]
+  before_action :set_bookmark, only: %i[show]
 
   # GET /bookmarks
   def index
@@ -38,6 +39,14 @@ class Api::V1::BookmarksController < ActionController::API
     else
       create
     end
+  end
+
+  # DELETE /bookmarks/:entry_id
+  def destroy
+    @bookmark = Bookmark.find_by(entry_id: params[:entry_id],
+                                 user_id: current_api_v1_user.id)
+    redirect_to controller: 'api', action: 'routing_error' if @bookmark.nil?
+    @bookmark&.destroy
   end
 
   private

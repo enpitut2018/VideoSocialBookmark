@@ -1,14 +1,17 @@
 class Api::V1::TrendController < ApplicationController
-  before_action :set_trend, only: %i[index preload]
+  include DeviseTokenAuth::Concerns::SetUserByToken
+  before_action :set_trend, only: [:index, :preload]
 
   # GET /trend/:page
   def index
-    render json: @trend, include: ''
+    id = api_v1_user_signed_in? ? current_api_v1_user.id : nil
+    render json: @trend, include: '', user_id: id
   end
 
   # GET /trend/:page/preload
   def preload
-    render json: @trend, include: 'bookmarks.user'
+    id = api_v1_user_signed_in? ? current_api_v1_user.id : nil
+    render json: @trend, include: 'bookmarks.user', user_id: id
   end
 
   private
