@@ -5,13 +5,13 @@ class Api::V1::UsersController < ActionController::API
 
   before_action :authenticate_api_v1_user!, only: [:show]
 
-  # GET /user
-  def index
+  # GET /current_user
+  def current_user_show
     render json: current_api_v1_user
   end
 
   # GET /current_user/icon
-  def index_user_icon
+  def current_user_icon
     render json: { "userIcon": { "url": current_api_v1_user.image } }
   end
 
