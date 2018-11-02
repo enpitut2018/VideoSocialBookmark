@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:kinironote/rspec-snapshot.git
-  revision: 9193bdf795802c6744b1ac6ca411065633534a67
+  revision: 233895da2ae5f1079de0e5ed33d42a2eeae92351
   specs:
     rspec-snapshot (0.1.1)
       diffy (~> 3.2.0)
