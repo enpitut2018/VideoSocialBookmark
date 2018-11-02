@@ -6,7 +6,8 @@
     "url": "https://www.youtube.com/watch?v=C5WJXffAT4A",
     "title": "Sharing Around - YouTube",
     "thumbnail_url": "https://img.youtube.com/vi/C5WJXffAT4A/default.jpg",
-    "num_of_bookmarked": 1
+    "num_of_bookmarked": 1,
+    "bookmarked?": false
   },
   "user": {
     "id": 1,
