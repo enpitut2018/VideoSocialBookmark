@@ -12,9 +12,6 @@ Rails.application.routes.draw do
         end
       end
 
-      # Comments
-      resources :comments, only: %i[index create]
-
       # Entries
       get "/entries/:entry_id/comments", to: "comments#index"
       post "/entries/:entry_id/comments", to: "comments#create"

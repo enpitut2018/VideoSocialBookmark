@@ -8,7 +8,7 @@ class Api::V1::UsersController < ActionController::API
 
   # GET /current_user
   def current_user_show
-    render json: current_api_v1_user, include: :user
+    render json: current_api_v1_user, include: ""
   end
 
   # GET /current_user/icon
@@ -18,7 +18,7 @@ class Api::V1::UsersController < ActionController::API
 
   # GET /users/:id
   def show
-    render json: @user, include: :user
+    render json: @user, include: ""
   end
 
   # GET /users/:id/bookmarks

@@ -10,7 +10,7 @@ class Api::V1::TrendController < ApplicationController
 
   # GET /trend/:page/preload
   def preload
-    render json: @trend, include: { comments: :user }
+    render json: @trend, include: [{ comments: :user }, { bookmarks: :user }, :users]
   end
 
   private
@@ -20,7 +20,7 @@ class Api::V1::TrendController < ApplicationController
     @trend = Entry
              .order("num_of_bookmarked DESC")
              .page(trend_params[:page])
-             .includes(bookmarks: :user)
+             .includes([comments: :user, bookmarks: :user])
   end
 
   # Only allow a trusted parameter "white list" through.

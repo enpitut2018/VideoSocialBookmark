@@ -8,7 +8,7 @@ class Api::V1::CommentsController < ActionController::API
   # GET /entries/:entry_id/comments
   def index
     @comments = Entry.find(params[:entry_id]).comments.includes(:user)
-    render json: @comments, include: %i[bookmark user]
+    render json: @comments, include: :user
   end
 
   # POST entries/:entry_id/comments
@@ -21,7 +21,7 @@ class Api::V1::CommentsController < ActionController::API
 
     comment = entry.comments.new(content: comment_params[:content], user_id: current_api_v1_user.id)
     if comment.save
-      render json: bookmark, include: [{ entry: :comments }, :user], status: :created
+      render json: comment, include: %i[entry user], status: :created
     else
       render json: comment.errors, status: :unprocessable_entity
     end

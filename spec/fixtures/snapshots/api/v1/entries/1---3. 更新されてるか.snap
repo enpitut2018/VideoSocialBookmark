@@ -4,6 +4,16 @@
   "title": "Sharing Around - YouTube",
   "thumbnail_url": "https://img.youtube.com/vi/C5WJXffAT4A/default.jpg",
   "num_of_bookmarked": 1,
+  "bookmarks": [
+    {
+      "id": 1,
+      "user": {
+        "id": 1,
+        "name": null,
+        "image": null
+      }
+    }
+  ],
   "comments": [
     {
       "id": 1,
@@ -22,6 +32,13 @@
         "name": null,
         "image": null
       }
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": null,
+      "image": null
     }
   ]
 }

@@ -25,12 +25,6 @@ PreCommit:
     enabled: true
     command: ['bundle', 'exec', 'rubocop']
     on_warn: fail # Treat all warnings as failures
-  RailsBestPractices:
-    enabled: true
-    command: ['bundle', 'exec', 'rails_best_practices']
-    exclude: &default_excludes
-      - 'app/controllers/api/v1/auth'
-    on_warn: fail
   Rspec:
     enabled: true
     command: ['bundle', 'exec', 'rspec']

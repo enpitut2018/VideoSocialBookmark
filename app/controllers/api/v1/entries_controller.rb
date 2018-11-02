@@ -8,7 +8,7 @@ class Api::V1::EntriesController < ApplicationController
 
   # GET /entries/:id
   def show
-    render json: @entry, include: [comments: :user]
+    render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users]
   end
 
   # POST /entries
@@ -21,7 +21,7 @@ class Api::V1::EntriesController < ApplicationController
 
     comment = entry.comments.new(content: comment_params[:content], user_id: current_api_v1_user.id)
     if comment.save
-      render json: comment, status: :created
+      render json: comment, include: %i[entry user], status: :created
     else
       render json: comment.errors, status: :unprocessable_entity
     end
@@ -30,7 +30,7 @@ class Api::V1::EntriesController < ApplicationController
   private
 
   def set_entry
-    @entry = Entry.includes(comments: :user).find(params[:id])
+    @entry = Entry.includes([comments: :user, bookmarks: :user]).find(params[:id])
   end
 
   def entry_params
