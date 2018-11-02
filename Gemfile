@@ -58,6 +58,8 @@ group :development, :test do
   gem "database_cleaner"
 
   gem "overcommit"
+
+  gem "rails-erd"
 end
 
 group :development do

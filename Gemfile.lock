@@ -67,6 +67,7 @@ GEM
       activesupport
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
+    choice (0.2.0)
     code_analyzer (0.4.8)
       sexp_processor
     concurrent-ruby (1.0.5)
@@ -166,6 +167,11 @@ GEM
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
+    rails-erd (1.5.2)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
     rails_best_practices (1.19.4)
@@ -220,6 +226,7 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.4.0)
+    ruby-graphviz (1.2.3)
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
     sexp_processor (4.11.0)
@@ -266,6 +273,7 @@ DEPENDENCIES
   puma (~> 3.11)
   rack-cors
   rails (~> 5.2.1)
+  rails-erd
   rails_best_practices
   rspec-rails
   rspec-snapshot!
