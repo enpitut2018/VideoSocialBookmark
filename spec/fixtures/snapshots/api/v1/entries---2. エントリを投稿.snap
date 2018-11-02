@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "content": "test",
+  "bookmark": {
+    "id": 1
+  },
+  "user": {
+    "id": 1,
+    "name": null,
+    "image": null
+  }
+}
