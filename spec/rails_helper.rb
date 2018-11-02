@@ -6,6 +6,7 @@ require File.expand_path("../../config/environment", __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
+require "devise"
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -63,7 +64,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   # Auto generate `json` data when request
-  config.include Requests::JsonHelpers, type: :request
+  config.include RequestSpecHelper::JsonHelpers, type: :request
 
   # The default setting is `:relative`, which means snapshots will be generate to
   # the relative path of the spec file.
@@ -81,4 +82,6 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.include RequestSpecHelper, type: :request
 end
