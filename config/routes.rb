@@ -12,9 +12,6 @@ Rails.application.routes.draw do
         end
       end
 
-      # Bookmarks
-      resources :bookmarks, only: %i[create]
-
       # Comments
       resources :comments, only: %i[index create]
 
