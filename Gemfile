@@ -56,6 +56,8 @@ group :development, :test do
   gem "factory_bot_rails"
 
   gem "database_cleaner"
+
+  gem "overcommit"
 end
 
 group :development do
