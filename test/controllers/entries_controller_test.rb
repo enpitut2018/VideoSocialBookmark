@@ -1,4 +1,6 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 class EntriesControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -11,8 +13,8 @@ class EntriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create entry" do
-    assert_difference('Entry.count') do
-      post entries_url, params: { entry: {  } }, as: :json
+    assert_difference("Entry.count") do
+      post entries_url, params: { entry: {} }, as: :json
     end
 
     assert_response 201
@@ -24,12 +26,12 @@ class EntriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update entry" do
-    patch entry_url(@entry), params: { entry: {  } }, as: :json
+    patch entry_url(@entry), params: { entry: {} }, as: :json
     assert_response 200
   end
 
   test "should destroy entry" do
-    assert_difference('Entry.count', -1) do
+    assert_difference("Entry.count", -1) do
       delete entry_url(@entry), as: :json
     end
 
