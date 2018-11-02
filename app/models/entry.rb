@@ -41,16 +41,10 @@ class Entry < ApplicationRecord
   end
 
   def self.update_num_of_bookmarked(entries)
-    entries.each { |e| e.update(num_of_bookmarked: e.count_bookmarks) }
+    entries.each { |e| e.update(num_of_bookmarked: e.bookmarks.size) }
   end
 
-  def count_bookmarks
-    if bookmarks.loaded?
-      bookmarks.to_a.size
-    else
-      bookmarks.count
-    end
-  end
+  private
 
   def self.latest_n_bookmarks(n)
     limit(n).preload(:bookmarks)

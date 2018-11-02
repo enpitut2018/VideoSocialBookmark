@@ -14,7 +14,7 @@ class Api::V1::EntriesController < ApplicationController
   # POST entries
   def create
     @entry = Entry.create_or_get(entry_params[:original_url])
-    @entry[:num_of_bookmarked] = @entry.count_bookmarks
+    @entry[:num_of_bookmarked] = @entry.safe_num_of_bookmarked
 
     @bookmark = Bookmark.find_by(entry_id: @entry.id, user_id: current_api_v1_user.id)
     if @bookmark.nil?

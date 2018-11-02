@@ -15,6 +15,8 @@ Style/ClassAndModuleChildren:
   Enabled: false
 Style/StringLiterals:
   EnforcedStyle: 'double_quotes'
+Style/AsciiComments:
+  Enabled: false
 Metrics:
   Enabled: false
 Layout:
