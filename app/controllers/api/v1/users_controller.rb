@@ -3,7 +3,7 @@
 class Api::V1::UsersController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :authenticate_api_v1_user!, only: [:show]
+  before_action :authenticate_api_v1_user!, only: []
 
   # GET /current_user
   def current_user_show
@@ -18,7 +18,7 @@ class Api::V1::UsersController < ActionController::API
   # GET /users/:id
   def show
     user = User.find_by(id: params[:id])
-    render json: user
+    render json: user, include: :user
   end
 
   # GET /users/:id/bookmarks
