@@ -5,8 +5,8 @@ module RequestSpecHelper
     end
   end
 
-  def login(user)
-    post "/api/v1/auth/sign_in", params: {format: "json", email: "TEST1@example.com", password: "PASSWORD1"}
+  def login()
+    post "/api/v1/auth/sign_in", params: { format: "json", email: "TEST1@example.com", password: "PASSWORD1" }
     @headers = response.headers
     @headers = @headers.map { |k, v| [k, v] }.to_h
     @headers.delete("Content-Type")
@@ -15,7 +15,7 @@ module RequestSpecHelper
   def snapshot(title, url, params = nil, black_list = [])
     api_v1_url = "/api/v1" + url
     if params
-      post api_v1_url, params: {format: "json", **params}, headers: @headers
+      post api_v1_url, params: { format: "json", **params }, headers: @headers
     else
       get api_v1_url
     end

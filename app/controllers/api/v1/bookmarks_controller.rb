@@ -36,25 +36,26 @@ class Api::V1::BookmarksController < ActionController::API
   def create_by_entry_id
     @entry = Entry.find(params[:entry_id])
     if @entry.nil?
-      redirect_to controller: 'api', action: 'routing_error'
+      redirect_to controller: "api", action: "routing_error"
     else
       create
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_bookmark
-      someones_bookmark = Bookmark.find(params[:id])
-      if someones_bookmark[:private]
-        @bookmark = someones_bookmark if someones_bookmark[:user_id] == current_api_v1_user.user_id
-      else
-        @bookmark = someones_bookmark
-      end
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def bookmark_params
-      params.require(:bookmark).permit(:star_count, :private, :original_url)
+  # Use callbacks to share common setup or constraints between actions.
+  def set_bookmark
+    someones_bookmark = Bookmark.find(params[:id])
+    if someones_bookmark[:private]
+      @bookmark = someones_bookmark if someones_bookmark[:user_id] == current_api_v1_user.user_id
+    else
+      @bookmark = someones_bookmark
     end
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def bookmark_params
+    params.require(:bookmark).permit(:star_count, :private, :original_url)
+  end
 end

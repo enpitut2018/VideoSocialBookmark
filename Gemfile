@@ -28,7 +28,7 @@ gem 'kaminari'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-#Devise_token_auth
+# Devise_token_auth
 gem 'devise'
 gem 'devise_token_auth'
 

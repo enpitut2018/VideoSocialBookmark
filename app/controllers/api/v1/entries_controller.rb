@@ -6,7 +6,7 @@ class Api::V1::EntriesController < ApplicationController
 
   # GET /entries/:id
   def show
-    render json: @entry, include: [ comments: :user ]
+    render json: @entry, include: [comments: :user]
   end
 
   # POST entries
@@ -33,15 +33,16 @@ class Api::V1::EntriesController < ApplicationController
   end
 
   private
-    def set_entry
-      @entry = Entry.find(params[:id])
-    end
 
-    def entry_params
-      params.fetch(:entry, {}).permit(:original_url)
-    end
+  def set_entry
+    @entry = Entry.find(params[:id])
+  end
 
-    def comment_params
-      params.fetch(:comment, {}).permit(:content)
-    end
+  def entry_params
+    params.fetch(:entry, {}).permit(:original_url)
+  end
+
+  def comment_params
+    params.fetch(:comment, {}).permit(:content)
+  end
 end

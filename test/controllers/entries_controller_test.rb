@@ -12,7 +12,7 @@ class EntriesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create entry" do
     assert_difference('Entry.count') do
-      post entries_url, params: { entry: {  } }, as: :json
+      post entries_url, params: { entry: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class EntriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update entry" do
-    patch entry_url(@entry), params: { entry: {  } }, as: :json
+    patch entry_url(@entry), params: { entry: {} }, as: :json
     assert_response 200
   end
 

@@ -3,7 +3,6 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-
       resources :comments, only: %i[index create]
       resources :bookmarks, only: %i[create]
       resources :entries, only: %i[show]

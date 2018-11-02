@@ -7,6 +7,6 @@ Style:
 Metrics:
   Enabled: false
 Layout:
-  Enabled: false
+  Enabled: true
 Naming:
   Enabled: false

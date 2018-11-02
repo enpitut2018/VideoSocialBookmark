@@ -1,5 +1,5 @@
 require "uri"
-require 'json'
+require "json"
 require "open-uri"
 require "nokogiri"
 
@@ -13,6 +13,7 @@ class Entry < ApplicationRecord
     if Entry.exists?(url: url)
       return Entry.find_by(url: url)
     end
+
     return Entry.create(title: Entry.get_title(url),
                         url: url,
                         thumbnail_url: Entry.get_thumbnail(url))
@@ -30,7 +31,7 @@ class Entry < ApplicationRecord
     parsed_uri = URI::parse(uri)
     if parsed_uri.host == "www.youtube.com"
       charset = nil
-      html = open(uri) do |f|
+      html = parsed_uri.open do |f|
         charset = f.charset
         f.read
       end
@@ -40,12 +41,12 @@ class Entry < ApplicationRecord
   end
 
   def self.update_num_of_bookmarked(entries)
-    entries.each { |e| e.update_attributes(num_of_bookmarked: e.count_bookmarks) }
+    entries.each { |e| e.update(num_of_bookmarked: e.count_bookmarks) }
   end
 
   def count_bookmarks
     if bookmarks.loaded?
-      bookmarks.to_a.count
+      bookmarks.to_a.size
     else
       bookmarks.count
     end

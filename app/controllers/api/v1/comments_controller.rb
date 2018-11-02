@@ -17,12 +17,12 @@ class Api::V1::CommentsController < ActionController::API
     if @bookmark.nil?
       @entry = Entry.find(:entry_id)
       if @entry.nil?
-        redirect_to controller: 'api', action: 'routing_error'
+        redirect_to controller: "api", action: "routing_error"
       end
 
       @bookmark = Bookmark.new(entry_id: @entry.id, user_id: current_api_v1_user.id)
       unless @bookmark.save
-        redirect_to controller: 'api', action: 'routing_error'
+        redirect_to controller: "api", action: "routing_error"
       end
     end
     @comment.bookmark_id = @bookmark.id
@@ -35,8 +35,9 @@ class Api::V1::CommentsController < ActionController::API
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
-    def comment_params
-      params.require(:comment).permit(:content)
-    end
+
+  # Only allow a trusted parameter "white list" through.
+  def comment_params
+    params.require(:comment).permit(:content)
+  end
 end
