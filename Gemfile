@@ -40,6 +40,9 @@ gem "rack-cors"
 # scraping
 gem "nokogiri"
 
+# video data extractor
+gem "youtube-dl.rb"
+
 # serializer
 gem "active_model_serializers"
 
@@ -50,6 +53,8 @@ group :development, :test do
   gem "rails_best_practices"
 
   gem "rspec-rails"
+
+  gem "rspec-core"
 
   gem "rspec-snapshot", git: "git@github.com:kinironote/rspec-snapshot.git"
 
