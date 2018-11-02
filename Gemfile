@@ -52,6 +52,8 @@ group :development, :test do
   gem 'rspec-snapshot', :git => 'git@github.com:kinironote/rspec-snapshot.git'
 
   gem "factory_bot_rails"
+
+  gem "database_cleaner"
 end
 
 group :development do
