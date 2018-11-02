@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::EntriesController < ApplicationController
   include DeviseTokenAuth::Concerns::SetUserByToken
 
@@ -6,50 +8,36 @@ class Api::V1::EntriesController < ApplicationController
 
   # GET /entries/:id
   def show
-    render json: @entry, include: [comments: :user]
+    render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users]
   end
 
-  # POST entries
+  # POST /entries
   def create
-    @entry = Entry.create_or_get(entry_params[:original_url])
-    if @entry.nil?
-      render json: @entry.errors, status: :unprocessable_entity
-      return
-    end
+    entry = Entry.find_or_initialize_by_original_url(entry_params[:original_url])
+    render json: entry.errors, status: :unprocessable_entity unless entry.save
 
-    @bookmark = Bookmark.find_or_create_by(entry_id: @entry.id,
-                                           user_id: current_api_v1_user.id)
-    if @bookmark.nil?
-      render json: @bookmark.errors, status: :unprocessable_entity
-      return
-    end
+    bookmark = entry.bookmarks.find_or_initialize_by(user_id: current_api_v1_user.id)
+    render json: bookmark.errors, status: :unprocessable_entity unless bookmark.save
 
-    if comment_params[:content].nil?
-      render json: @entry, status: :created
-      return
-    end
-
-    @comment = @entry.comments.new(comment_params)
-    @comment[:user_id] = current_api_v1_user.id
-
-    if @comment.save
-      render json: @comment, status: :created
+    comment = entry.comments.new(content: comment_params[:content], user_id: current_api_v1_user.id)
+    if comment.save
+      render json: comment, include: %i[entry user], status: :created
     else
-      render json: @comment.errors, status: :unprocessable_entity
+      render json: comment.errors, status: :unprocessable_entity
     end
   end
 
   private
 
   def set_entry
-    @entry = Entry.find(params[:id])
+    @entry = Entry.includes([comments: :user, bookmarks: :user]).find(params[:id])
   end
 
   def entry_params
-    params.fetch(:entry, {}).permit(:original_url)
+    params.require(:entry).permit(:original_url)
   end
 
   def comment_params
-    params.fetch(:comment, {}).permit(:content)
+    params.fetch(:comment, content: "").permit(:content)
   end
 end
