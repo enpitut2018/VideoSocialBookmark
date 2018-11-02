@@ -1,42 +1,36 @@
+# frozen_string_literal: true
+
 class Api::V1::CommentsController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :authenticate_api_v1_user!, only: [:create, :update, :destroy]
+  before_action :authenticate_api_v1_user!, only: :create
 
   # GET /entries/:entry_id/comments
   def index
-    @comments = Entry.find(params[:entry_id]).comments
-    render json: @comments
+    @comments = Entry.find(params[:entry_id]).comments.includes(:user)
+    render json: @comments, include: :user
   end
 
   # POST entries/:entry_id/comments
   def create
-    @comment = Comment.new(comment_params)
+    entry = Entry.find(params[:entry_id])
+    redirect_to controller: "api", action: "routing_error" unless entry
 
-    @bookmark = Bookmark.find_by(entry_id: params[:entry_id])
-    if @bookmark.nil?
-      @entry = Entry.find(:entry_id)
-      if @entry.nil?
-        redirect_to controller: 'api', action: 'routing_error'
-      end
+    bookmark = entry.bookmarks.find_or_initialize_by(user_id: current_api_v1_user.id)
+    render json: bookmark.errors, status: :unprocessable_entity unless bookmark.save
 
-      @bookmark = Bookmark.new(entry_id: @entry.id, user_id: current_api_v1_user.id)
-      unless @bookmark.save
-        redirect_to controller: 'api', action: 'routing_error'
-      end
-    end
-    @comment.bookmark_id = @bookmark.id
-
-    if @comment.save
-      render json: @bookmark, status: :created
+    comment = entry.comments.new(content: comment_params[:content], user_id: current_api_v1_user.id)
+    if comment.save
+      render json: comment, include: %i[entry user], status: :created
     else
-      render json: @bookmark.errors, status: :unprocessable_entity
+      render json: comment.errors, status: :unprocessable_entity
     end
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
-    def comment_params
-      params.require(:comment).permit(:content)
-    end
+
+  # Only allow a trusted parameter "white list" through.
+  def comment_params
+    params.require(:comment).permit(:content)
+  end
 end

@@ -1,0 +1,45 @@
+{
+  "id": 1,
+  "url": "https://www.youtube.com/watch?v=C5WJXffAT4A",
+  "title": "Sharing Around",
+  "thumbnail_url": "https://img.youtube.com/vi/C5WJXffAT4A/default.jpg",
+  "num_of_bookmarked": 1,
+  "bookmarked?": false,
+  "bookmarks": [
+    {
+      "id": 1,
+      "user": {
+        "id": 1,
+        "name": null,
+        "image": null
+      }
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "content": "test",
+      "user": {
+        "id": 1,
+        "name": null,
+        "image": null
+      }
+    },
+    {
+      "id": 2,
+      "content": "いいね",
+      "user": {
+        "id": 1,
+        "name": null,
+        "image": null
+      }
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": null,
+      "image": null
+    }
+  ]
+}

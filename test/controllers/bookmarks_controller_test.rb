@@ -1,4 +1,6 @@
-require 'test_helper'
+# frozen_string_literal: true
+
+require "test_helper"
 
 class BookmarksControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -11,7 +13,7 @@ class BookmarksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create bookmark" do
-    assert_difference('Bookmark.count') do
+    assert_difference("Bookmark.count") do
       post bookmarks_url, params: { bookmark: { comment: @bookmark.comment, original_url: @bookmark.original_url, private: @bookmark.private, star_count: @bookmark.star_count, thread_id: @bookmark.thread_id, user_id: @bookmark.user_id } }, as: :json
     end
 
@@ -29,7 +31,7 @@ class BookmarksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy bookmark" do
-    assert_difference('Bookmark.count', -1) do
+    assert_difference("Bookmark.count", -1) do
       delete bookmark_url(@bookmark), as: :json
     end
 
