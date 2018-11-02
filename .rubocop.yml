@@ -1,0 +1,12 @@
+AllCops:
+  TargetRubyVersion: 2.5
+Rails:
+  Enabled: true
+Style:
+  Enabled: false
+Metrics:
+  Enabled: false
+Layout:
+  Enabled: false
+Naming:
+  Enabled: false
