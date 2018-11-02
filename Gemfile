@@ -49,7 +49,7 @@ group :development, :test do
 
   gem 'rspec-rails'
 
-  gem 'rspec-snapshot'
+  gem 'rspec-snapshot', :git => 'git@github.com:kinironote/rspec-snapshot.git'
 
   gem "factory_bot_rails"
 end
