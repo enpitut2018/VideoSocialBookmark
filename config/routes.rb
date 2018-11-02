@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :comments, only: %i[index create]
-      resources :bookmarks, only: %i[create]
+      resources :bookmarks
       resources :entries, only: %i[show]
       resources :users
       get '/entries/:entry_id/comments', to: 'comments#index'
@@ -24,6 +24,10 @@ Rails.application.routes.draw do
       get '/current_user', to: 'users#index'
       get '/current_user/icon', to: 'users#index_user_icon'
       get '/users/:id/bookmarks', to: 'users#bookmarks'
+
+      get "/ranking/:page", to: "ranking#index"
+      get "/search/entry", to: "search#entry"
+      post "/entries/:entry_id", to: "bookmarks#create_by_entry_id"
 
       mount_devise_token_auth_for 'User', at: 'auth',
                                           controllers: {
