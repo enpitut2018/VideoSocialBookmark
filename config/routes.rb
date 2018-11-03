@@ -12,6 +12,10 @@ Rails.application.routes.draw do
         end
       end
 
+      # Bookmarkes
+      post "/bookmarks", to: "bookmarks#create"
+      delete "/bookmarks", to: "bookmarks#destroy"
+
       # Entries
       get "/entries/:entry_id/comments", to: "comments#index"
       post "/entries/:entry_id/comments", to: "comments#create"
