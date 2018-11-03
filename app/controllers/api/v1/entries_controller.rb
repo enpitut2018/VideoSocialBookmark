@@ -27,6 +27,16 @@ class Api::V1::EntriesController < ApplicationController
     end
   end
 
+  # PUT /entries/:id
+  def update
+    if @entry.nil? ||
+       @entry.update(entry_update_params)
+      render status: :bad_request
+    else
+      render status: :ok
+    end
+  end
+
   private
 
   def set_entry
@@ -35,6 +45,10 @@ class Api::V1::EntriesController < ApplicationController
 
   def entry_params
     params.require(:entry).permit(:original_url)
+  end
+
+  def entry_update_params
+    params.require(:entry).permit(:original_url, :title, :thumbnail_url)
   end
 
   def comment_params
