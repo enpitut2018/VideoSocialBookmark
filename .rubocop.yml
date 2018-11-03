@@ -1,0 +1,25 @@
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'bin/**/*'
+    - 'db/**/*'
+Rails:
+  Enabled: true
+Style:
+  Enabled: true
+Style/Documentation:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: 'double_quotes'
+Style/AsciiComments:
+  Enabled: false
+Metrics:
+  Enabled: false
+Layout:
+  Enabled: true
+Naming:
+  Enabled: false
