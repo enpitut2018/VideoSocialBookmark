@@ -17,9 +17,6 @@ class Api::V1::CommentsController < ActionController::API
     entry = Entry.find(params[:entry_id])
     redirect_to controller: "api", action: "routing_error" unless entry
 
-    bookmark = entry.bookmarks.find_or_initialize_by(user_id: current_api_v1_user.id)
-    render json: bookmark.errors, status: :unprocessable_entity unless bookmark.save
-
     comment = entry.comments.new(content: comment_params[:content], user_id: current_api_v1_user.id)
     if comment.save
       render json: comment, include: %i[entry user], status: :created
