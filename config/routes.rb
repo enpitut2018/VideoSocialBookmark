@@ -13,7 +13,8 @@ Rails.application.routes.draw do
       end
 
       # Bookmarks
-      resources :bookmarks, only: :destroy
+      post "/bookmarks", to: "bookmarks#create"
+      delete "/bookmarks", to: "bookmarks#destroy"
 
       # Comments
       resources :comments, only: %i[update destroy]
