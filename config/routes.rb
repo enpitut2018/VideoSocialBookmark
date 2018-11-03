@@ -12,10 +12,16 @@ Rails.application.routes.draw do
         end
       end
 
+      # Bookmarks
+      resources :bookmarks, only: :destroy
+
+      # Comments
+      resources :comments, only: %i[update destroy]
+
       # Entries
       get "/entries/:entry_id/comments", to: "comments#index"
       post "/entries/:entry_id/comments", to: "comments#create"
-      resources :entries, only: %i[show create]
+      resources :entries, only: %i[show create update]
 
       # Stars
       namespace :stars do
