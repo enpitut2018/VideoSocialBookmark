@@ -74,10 +74,14 @@ class Entry < ApplicationRecord
     return "No title" unless url.respond_to?(:open)
 
     # rubocop:disable Security/Open (open is replaced by open-uri)
-    doc = open(url)
+    charset = nil
+    html = open(url) do |f|
+      charset = f.charset
+      f.read
+    end
     # rubocop:enable Security/Open
 
-    doc = Nokogiri::HTML.parse(doc)
+    doc = Nokogiri::HTML.parse(html, nil, charset)
     doc.title
   end
 
