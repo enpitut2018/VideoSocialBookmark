@@ -7,7 +7,8 @@ class EntrySerializer < ActiveModel::Serializer
   has_many :users, through: :bookmarks
 
   def bookmarked?
-    @instance_options[:user_id].present? &&
-      object.bookmarks.find_by(user_id: @instance_options[:user_id]).present?
+    return nil if @instance_options[:user_id].blank?
+
+    object.bookmarks.any? { |bookmark| bookmark.user_id == @instance_options[:user_id] }
   end
 end
