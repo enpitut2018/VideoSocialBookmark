@@ -28,9 +28,9 @@ class Entry < ApplicationRecord
 
   def self.get_video_data(uri)
     sites = {
-      youtube: "www.youtube.com",
-      nicovideo: "www.nicovideo.jp",
-      dailymotion: "www.dailymotion.com"
+      youtube: /[m|www]\.youtube\.com/,
+      nicovideo: /[sp|www]\.nicovideo\.jp/,
+      dailymotion: /www\.dailymotion\.com/
     }
     parsed_uri = URI.parse(uri)
     title = fetchTitleFromUrl(uri) if sites.key?(parsed_uri.host)
