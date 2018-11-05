@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::BookmarksController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
+class Api::V1::BookmarksController < ApplicationController
   before_action :authenticate_api_v1_user!, only: %i[create destroy]
 
   # POST /bookmarks

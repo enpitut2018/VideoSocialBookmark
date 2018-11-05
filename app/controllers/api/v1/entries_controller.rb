@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 class Api::V1::EntriesController < ApplicationController
-  include DeviseTokenAuth::Concerns::SetUserByToken
-
   before_action :set_entry, only: [:show]
   before_action :authenticate_api_v1_user!, only: [:create]
 
   # GET /entries/:id
   def show
-    id = api_v1_user_signed_in? ? current_api_v1_user.id : nil
-    render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users], user_id: id
+    render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users]
   end
 
   # POST /entries

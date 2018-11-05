@@ -7,8 +7,8 @@ class EntrySerializer < ActiveModel::Serializer
   has_many :users, through: :bookmarks
 
   def bookmarked?
-    return nil if @instance_options[:user_id].blank?
+    return nil unless scope.api_v1_user_signed_in?
 
-    object.bookmarks.any? { |bookmark| bookmark.user_id == @instance_options[:user_id] }
+    object.bookmarks.any? { |bookmark| bookmark.user_id == scope.current_api_v1_user.id }
   end
 end

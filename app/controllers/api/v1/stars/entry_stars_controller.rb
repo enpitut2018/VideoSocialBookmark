@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::Stars::EntryStarsController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
-
+class Api::V1::Stars::EntryStarsController < ApplicationController
   before_action :set_entry_star, only: %i[show create destroy]
   before_action :authenticate_api_v1_user!, only: %i[show create destroy]
 
