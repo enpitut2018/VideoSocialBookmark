@@ -6,14 +6,12 @@ class Api::V1::TrendController < ApplicationController
 
   # GET /trend/:page
   def index
-    id = api_v1_user_signed_in? ? current_api_v1_user.id : nil
-    render json: @trend.includes(bookmarks: :user), include: "", user_id: id
+    render json: @trend.includes(bookmarks: :user), include: ""
   end
 
   # GET /trend/:page/preload
   def preload
-    id = api_v1_user_signed_in? ? current_api_v1_user.id : nil
-    render json: @trend.includes([{ comments: :user }, { bookmarks: :user }, :users]), include: [{ comments: :user }, { bookmarks: :user }, :users], user_id: id
+    render json: @trend.includes([{ comments: :user }, { bookmarks: :user }, :users]), include: [{ comments: :user }, { bookmarks: :user }, :users]
   end
 
   private

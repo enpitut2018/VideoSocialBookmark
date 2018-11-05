@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::UsersController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
-
+class Api::V1::UsersController < ApplicationController
   before_action :authenticate_api_v1_user!, only: %i[current_user_show current_user_icon]
   before_action :set_user, only: %i[show bookmarks]
 
