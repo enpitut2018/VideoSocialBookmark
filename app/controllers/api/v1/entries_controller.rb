@@ -8,7 +8,8 @@ class Api::V1::EntriesController < ApplicationController
 
   # GET /entries/:id
   def show
-    render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users]
+    id = api_v1_user_signed_in? ? current_api_v1_user.id : nil
+    render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users], user_id: id
   end
 
   # POST /entries
