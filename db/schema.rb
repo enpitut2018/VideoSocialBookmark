@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_20_183718) do
+ActiveRecord::Schema.define(version: 2018_11_01_173723) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,12 +18,21 @@ ActiveRecord::Schema.define(version: 2018_10_20_183718) do
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id"
     t.integer "entry_id"
-    t.text "comment"
     t.integer "star_count"
     t.boolean "private"
     t.string "original_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "entry_id"], name: "index_bookmarks_on_user_id_and_entry_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "entry_id"
+    t.index ["user_id", "entry_id"], name: "index_comments_on_user_id_and_entry_id"
   end
 
   create_table "entries", force: :cascade do |t|
@@ -33,6 +42,15 @@ ActiveRecord::Schema.define(version: 2018_10_20_183718) do
     t.datetime "updated_at", null: false
     t.text "thumbnail_url"
     t.integer "num_of_bookmarked"
+    t.index ["num_of_bookmarked"], name: "index_entries_on_num_of_bookmarked"
+  end
+
+  create_table "entry_stars", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "entry_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "entry_id"], name: "index_entry_stars_on_user_id_and_entry_id"
   end
 
   create_table "users", force: :cascade do |t|

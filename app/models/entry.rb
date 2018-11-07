@@ -1,50 +1,93 @@
+# frozen_string_literal: true
+
 require "uri"
-require 'json'
+require "json"
 require "open-uri"
 require "nokogiri"
+require "net/http"
+require "json"
+require "kconv"
+require "youtube-dl"
 
 class Entry < ApplicationRecord
-  has_many :bookmarks
+  has_many :bookmarks, dependent: :destroy
+  has_many :entry_stars, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :users, through: :bookmarks
 
-  def self.create_or_get(url)
-    if Entry.exists?(url: url)
-      return Entry.find_by(url: url)
-    end
-    return Entry.create(title: Entry.get_title(url),
-                        url: url,
-                        thumbnail_url: Entry.get_thumbnail(url))
+  before_save :fetchVideoDataIfNot
+
+  def self.find_or_initialize_by_original_url(original_url)
+    find_or_initialize_by(url: original_url_to_url(original_url))
   end
 
-  def self.get_thumbnail(uri)
-    parsed_uri = URI::parse(uri)
-    if parsed_uri.host == "www.youtube.com"
-      video_id = Hash[URI::decode_www_form(parsed_uri.query)]["v"]
-      return "https://img.youtube.com/vi/" + video_id + "/default.jpg"
-    end
+  def self.original_url_to_url(original_url)
+    #  TODO : パラメータなどをカットする処理を実装する
+    original_url
   end
 
-  def self.get_title(uri)
-    parsed_uri = URI::parse(uri)
-    if parsed_uri.host == "www.youtube.com"
-      charset = nil
-      html = open(uri) do |f|
-        charset = f.charset
-        f.read
-      end
-      doc = Nokogiri::HTML.parse(html, nil, charset)
-      return doc.title
-    end
-  end
-
-  def count_bookmarks
-    if bookmarks.loaded?
-      bookmarks.to_a.count
+  def self.get_video_data(uri)
+    sites = {
+      youtube: /[m|www]\.youtube\.com/,
+      nicovideo: /[sp|www]\.nicovideo\.jp/,
+      dailymotion: /www\.dailymotion\.com/
+    }
+    parsed_uri = URI.parse(uri)
+    title = fetchTitleFromUrl(uri) if sites.key?(parsed_uri.host)
+    case parsed_uri.host
+    when sites[:youtube]
+      id = Hash[URI.decode_www_form(parsed_uri.query)]["v"]
+      thumbnail = "https://img.youtube.com/vi/" + id + "/default.jpg"
+      title = fetchTitleFromUrl(uri)[0..-11]
+    when sites[:nicovideo]
+      id = parsed_uri.path.split("/")[-1][2..-1]
+      thumbnail = "http://tn-skr3.smilevideo.jp/smile?i=" + id + ".L"
+      title = fetchTitleFromUrl(uri)
+    when sites[:dailymotion]
+      id = parsed_uri.path.split("/")[-1]
+      thumbnail = "https://www.dailymotion.com/thumbnail/video/" + id
+      title = fetchTitleFromUrl(uri)[0..-13].split(" - ")[0..-2].join(" - ")
     else
-      bookmarks.count
+      begin
+        options = {
+          'dump-json': true
+        }
+        video = YoutubeDL::Video.new uri, options
+        information = video.information
+        thumbnail = information[:thumbnails][0][:url]
+        title = information[:title]
+      rescue Terrapin::ExitStatusError => _
+        thumbnail = ""
+        title = fetchTitleFromUrl(uri)
+      end
     end
+
+    [title, thumbnail]
   end
 
-  def self.latest_n_bookmarks(n)
-    limit(n).preload(:bookmarks)
+  def self.comments
+    bookmarks.map(&:comments).flatten
+  end
+
+  def self.fetchTitleFromUrl(url)
+    url = URI(url)
+    return "No title" unless url.respond_to?(:open)
+
+    # rubocop:disable Security/Open (open is replaced by open-uri)
+    charset = nil
+    html = open(url) do |f|
+      charset = f.charset
+      f.read
+    end
+    # rubocop:enable Security/Open
+
+    doc = Nokogiri::HTML.parse(html, nil, charset)
+    doc.title
+  end
+
+  private
+
+  def fetchVideoDataIfNot
+    self.title, self.thumbnail_url = Entry.get_video_data(url) unless title && thumbnail_url
   end
 end
