@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:kinironote/rspec-snapshot.git
+  remote: https://github.com/kinironote/rspec-snapshot.git
   revision: 64675bfc38c58906833cd4e6715794689dc06268
   specs:
     rspec-snapshot (0.1.1)
