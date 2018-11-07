@@ -56,7 +56,7 @@ group :development, :test do
 
   gem "rspec-core"
 
-  gem "rspec-snapshot", git: "git@github.com:kinironote/rspec-snapshot.git"
+  gem "rspec-snapshot", git: "https://github.com/kinironote/rspec-snapshot.git"
 
   gem "factory_bot_rails"
 
