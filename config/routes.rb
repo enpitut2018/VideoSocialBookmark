@@ -24,6 +24,11 @@ Rails.application.routes.draw do
       post "/entries/:entry_id/comments", to: "comments#create"
       resources :entries, only: %i[show create update]
 
+      # Playlists
+      post "/playlists", to: "playlists#create"
+      post "/playlists/:id", to: "playlists#add_item"
+      delete "/playlists/:id", to: "playlists#destroy_item"
+
       # Stars
       namespace :stars do
         get "/entries/:entry_id", to: "entry_stars#show"
