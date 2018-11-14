@@ -30,3 +30,5 @@
 # Ignore frontend
 /frontend
 
+# Ignore node_modules
+/node_modules
