@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::CommentsController < ActionController::API
-  include DeviseTokenAuth::Concerns::SetUserByToken
-
+class Api::V1::CommentsController < ApplicationController
   before_action :authenticate_api_v1_user!, only: %i[create update destroy]
   before_action :set_bookmark, only: %i[update destroy]
 
