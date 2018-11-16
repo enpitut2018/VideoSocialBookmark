@@ -4,7 +4,7 @@ require "test_helper"
 
 class BookmarksControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @bookmark = bookmarks(:one)
+	  @bookmark = Bookmar.create!(user_id: 1, entry_id: 1)
   end
 
   test "should get index" do

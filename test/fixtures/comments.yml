@@ -2,8 +2,10 @@
 
 one:
   content: MyText
-  bookmark_id: 1
+  user_id: 1
+  entry_id: 1
 
 two:
   content: MyText
-  bookmark_id: 1
+  user_id: 1
+  entry_id: 1

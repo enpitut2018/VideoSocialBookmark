@@ -3,7 +3,7 @@
 require "test_helper"
 
 class Api::V1::Auth::SignUpControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  test "Invalid user" do
+     assert true
+  end
 end
