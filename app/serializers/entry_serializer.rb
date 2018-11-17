@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EntrySerializer < ActiveModel::Serializer
-  attributes :id, :url, :title, :video_id, :thumbnail_url, :num_of_bookmarked, :bookmarked?
+  attributes :id, :url, :title, :video_id, :thumbnail_url, :provider, :num_of_bookmarked, :bookmarked?
   has_many :bookmarks
   has_many :comments
   has_many :users, through: :bookmarks

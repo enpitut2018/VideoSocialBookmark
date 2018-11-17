@@ -36,14 +36,17 @@ class Entry < ApplicationRecord
     title = fetchTitleFromUrl(uri) if sites.key?(parsed_uri.host)
     case parsed_uri.host
     when sites[:youtube]
+      provider = "youtube"
       id = Hash[URI.decode_www_form(parsed_uri.query)]["v"]
       thumbnail = "https://img.youtube.com/vi/" + id + "/default.jpg"
       title = fetchTitleFromUrl(uri)[0..-11]
     when sites[:nicovideo]
+      provider = "nicovideo"
       id = parsed_uri.path.split("/")[-1]
       thumbnail = "http://tn-skr3.smilevideo.jp/smile?i=" + id[2..-1] + ".L"
       title = fetchTitleFromUrl(uri)
     when sites[:dailymotion]
+      provider = "dailymotion"
       id = parsed_uri.path.split("/")[-1]
       thumbnail = "https://www.dailymotion.com/thumbnail/video/" + id
       title = fetchTitleFromUrl(uri)[0..-13].split(" - ")[0..-2].join(" - ")
@@ -57,14 +60,16 @@ class Entry < ApplicationRecord
         thumbnail = information[:thumbnails][0][:url]
         title = information[:title]
         id = information[:id]
+        provider = "unknown"
       rescue Terrapin::ExitStatusError => _
         thumbnail = ""
         title = fetchTitleFromUrl(uri)
         id = ""
+        provider = "unknown"
       end
     end
 
-    [id, title, thumbnail]
+    [id, title, thumbnail, provider]
   end
 
   def self.comments
@@ -90,6 +95,6 @@ class Entry < ApplicationRecord
   private
 
   def fetchVideoDataIfNot
-    self.video_id, self.title, self.thumbnail_url = Entry.get_video_data(url) unless video_id && title && thumbnail_url
+    self.video_id, self.title, self.thumbnail_url, self.provider = Entry.get_video_data(url) unless video_id && title && thumbnail_url && provider
   end
 end
