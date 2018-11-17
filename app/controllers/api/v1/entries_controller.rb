@@ -46,7 +46,7 @@ class Api::V1::EntriesController < ApplicationController
   end
 
   def entry_update_params
-    params.require(:entry).permit(:original_url, :title, :thumbnail_url)
+    params.require(:entry).permit(:title)
   end
 
   def comment_params
