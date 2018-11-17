@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_01_173723) do
+ActiveRecord::Schema.define(version: 2018_11_17_014400) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2018_11_01_173723) do
     t.datetime "updated_at", null: false
     t.text "thumbnail_url"
     t.integer "num_of_bookmarked"
+    t.text "video_id"
     t.index ["num_of_bookmarked"], name: "index_entries_on_num_of_bookmarked"
   end
 
