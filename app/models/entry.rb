@@ -43,7 +43,7 @@ class Entry < ApplicationRecord
     when sites[:nicovideo]
       provider = "nicovideo"
       id = parsed_uri.path.split("/")[-1]
-      thumbnail = "http://tn-skr3.smilevideo.jp/smile?i=" + id[2..-1] + ".L"
+      thumbnail = "http://tn.smilevideo.jp/smile?i=" + id[2..-1] + ".L"
       title = fetchTitleFromUrl(uri)
     when sites[:dailymotion]
       provider = "dailymotion"
