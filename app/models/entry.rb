@@ -38,7 +38,7 @@ class Entry < ApplicationRecord
     when sites[:youtube]
       provider = "youtube"
       id = Hash[URI.decode_www_form(parsed_uri.query)]["v"]
-      thumbnail = "https://img.youtube.com/vi/" + id + "/default.jpg"
+      thumbnail = "https://img.youtube.com/vi/" + id + "/maxresdefault.jpg"
       title = fetchTitleFromUrl(uri)[0..-11]
     when sites[:nicovideo]
       provider = "nicovideo"
