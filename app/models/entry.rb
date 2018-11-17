@@ -60,7 +60,7 @@ class Entry < ApplicationRecord
         thumbnail = information[:thumbnails][0][:url]
         title = information[:title]
         id = information[:id]
-        provider = "unknown"
+        provider = information[:extractor]
       rescue Terrapin::ExitStatusError => _
         thumbnail = ""
         title = fetchTitleFromUrl(uri)
