@@ -41,7 +41,7 @@ gem "rack-cors"
 gem "nokogiri"
 
 # video data extractor
-gem "youtube-dl.rb"
+gem "youtube-dl.rb", git: "https://github.com/gkaklas/youtube-dl.rb.git", branch: "terrapin-migration"
 
 # serializer
 gem "active_model_serializers"
