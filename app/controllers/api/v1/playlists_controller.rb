@@ -19,6 +19,13 @@ class Api::V1::PlaylistsController < ApplicationController
   def create
     playlist = Playlist.new(playlist_params)
     playlist[:user_id] = current_api_v1_user.id
+    name = playlist[:name]
+    i = 0
+    while Playlist.exists?(name: name)
+      name = playlist[:name] + i.to_s
+      i += 1
+    end
+    playlist[:name] = name
     if playlist.save
       render json: @playlist
     else
