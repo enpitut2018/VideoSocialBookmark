@@ -5,6 +5,7 @@ AllCops:
     - 'vendor/**/*'
     - 'bin/**/*'
     - 'db/**/*'
+    - 'frontend/**/*'
 Rails:
   Enabled: true
 Style:
