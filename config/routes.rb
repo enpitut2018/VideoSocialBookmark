@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resources :entries, only: %i[show create update]
 
       # Playlists
+      get "/playlists", to: "playlists#index"
       post "/playlists", to: "playlists#create"
       post "/playlists/:id", to: "playlists#add_item"
       delete "/playlists/:id", to: "playlists#destroy_item"
