@@ -95,6 +95,6 @@ class Entry < ApplicationRecord
   private
 
   def fetchVideoDataIfNot
-    self.video_id, self.title, self.thumbnail_url, self.provider = Entry.get_video_data(url) unless video_id && title && thumbnail_url && provider
+    self.video_id, self.title, self.thumbnail_url, self.provider = Entry.get_video_data(url) unless title
   end
 end
