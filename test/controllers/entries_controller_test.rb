@@ -4,7 +4,7 @@ require "test_helper"
 
 class EntriesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @entry = entries(:one)
+    @entry = entries(title: "Mystring", url: "Mystring", thumbnail_url: "Mystring", )
   end
 
   test "should get index" do
