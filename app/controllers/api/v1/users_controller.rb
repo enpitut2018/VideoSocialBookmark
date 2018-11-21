@@ -2,7 +2,7 @@
 
 class Api::V1::UsersController < ApplicationController
   before_action :authenticate_api_v1_user!, only: %i[current_user_show current_user_icon]
-  before_action :set_user, only: %i[show bookmarks]
+  before_action :set_user, only: %i[show bookmarks playlists]
 
   # GET /current_user
   def current_user_show
@@ -22,6 +22,11 @@ class Api::V1::UsersController < ApplicationController
   # GET /users/:id/bookmarks
   def bookmarks
     render json: @user.bookmarks.includes(:entry), include: :entry
+  end
+
+  # GET /users/:id/playlists
+  def playlists
+    render json: @user.playlists, include: :playlist_items
   end
 
   private
