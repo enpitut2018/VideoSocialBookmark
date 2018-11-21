@@ -5,4 +5,5 @@ class UserSerializer < ActiveModel::Serializer
   has_many :comments
   has_many :bookmarks
   has_many :entries, through: :bookmarks
+  has_many :playlists
 end
