@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       get "/playlists", to: "playlists#index"
       post "/playlists", to: "playlists#create"
       post "/playlists/:id", to: "playlists#add_item"
+      put "/playlists/:id", to: "playlists#update"
       delete "/playlists/:id", to: "playlists#destroy_item"
 
       # Stars

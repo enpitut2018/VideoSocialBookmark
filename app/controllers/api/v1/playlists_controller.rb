@@ -35,11 +35,12 @@ class Api::V1::PlaylistsController < ApplicationController
 
   # PUT /playlists/:id
   def update
-    if @playlist.nil? ||
-       @playlist.update(playlist_update_params)
+    if @playlist.blank?
       render status: :bad_request
+    elsif @playlist.update(playlist_update_params)
+      render json: @playlist
     else
-      render status: :ok
+      render status: :bad_request
     end
   end
 
