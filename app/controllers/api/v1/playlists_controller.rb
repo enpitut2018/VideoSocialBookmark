@@ -12,7 +12,7 @@ class Api::V1::PlaylistsController < ApplicationController
 
   # GET /playlists/:id
   def show
-    render json: @playlist
+    render json: @playlist, include: { playlist_items: :entry }
   end
 
   # POST /playlists
