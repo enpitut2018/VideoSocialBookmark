@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::EntriesController < ApplicationController
-  before_action :set_entry, only: [:show]
+  before_action :set_entry, only: %i[show update]
   before_action :authenticate_api_v1_user!, only: [:create]
 
   # GET /entries/:id
