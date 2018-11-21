@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_17_020749) do
+ActiveRecord::Schema.define(version: 2018_11_20_074021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 2018_11_17_020749) do
   end
 
   create_table "entry_stars", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "entry_id", null: false
+    t.integer "user_id"
+    t.integer "entry_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "entry_id"], name: "index_entry_stars_on_user_id_and_entry_id"

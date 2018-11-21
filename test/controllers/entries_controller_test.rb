@@ -4,37 +4,23 @@ require "test_helper"
 
 class EntriesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @entry = entries(title: "Mystring", url: "Mystring", thumbnail_url: "Mystring", )
-  end
-
-  test "should get index" do
-    get entries_url, as: :json
-    assert_response :success
+	  @entry = Entry.create!(title: "Mystring", url: "aaa", thumbnail_url: "aaa", video_id: 1, provider: "aaaa")
   end
 
   test "should create entry" do
-    assert_difference("Entry.count") do
-      post entries_url, params: { entry: {} }, as: :json
+    assert_difference 'Entry.count', 1 do
+      post api_v1_entries_path, params: { entry: {title: "Mystring", 
+						  url: "aaa", 
+						  thumbnail_url: "aaa", 
+						  video_id: 1, 
+						  provider: "aaaa"} }, as: :json
     end
-
     assert_response 201
   end
 
   test "should show entry" do
-    get entry_url(@entry), as: :json
+    get api_v1_entry_path(@entry), as: :json
     assert_response :success
   end
-
-  test "should update entry" do
-    patch entry_url(@entry), params: { entry: {} }, as: :json
-    assert_response 200
-  end
-
-  test "should destroy entry" do
-    assert_difference("Entry.count", -1) do
-      delete entry_url(@entry), as: :json
-    end
-
-    assert_response 204
-  end
 end
+
