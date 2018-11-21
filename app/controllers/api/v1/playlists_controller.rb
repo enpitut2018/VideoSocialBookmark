@@ -7,7 +7,7 @@ class Api::V1::PlaylistsController < ApplicationController
   # GET /playlists
   def index
     playlists = Playlist.where(user_id: current_api_v1_user.id)
-    render json: playlists
+    render json: playlists, include: { playlist_items: :entry }
   end
 
   # GET /playlists/:id
