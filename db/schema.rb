@@ -55,6 +55,23 @@ ActiveRecord::Schema.define(version: 2018_11_17_020749) do
     t.index ["user_id", "entry_id"], name: "index_entry_stars_on_user_id_and_entry_id"
   end
 
+  create_table "playlist_items", force: :cascade do |t|
+    t.integer "playlist_id"
+    t.integer "entry_id"
+    t.integer "prev_id"
+    t.integer "next_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "playlists", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name"
+    t.boolean "is_private"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false

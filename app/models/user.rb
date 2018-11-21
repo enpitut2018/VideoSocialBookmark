@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :entry_stars, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :playlists, dependent: :destroy
   has_many :entries, through: :bookmarks
 
   # Include default devise modules. Others available are:

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :users, only: [:show] do
         member do
           get "bookmarks"
+          get "playlists"
         end
       end
 
@@ -23,6 +24,11 @@ Rails.application.routes.draw do
       get "/entries/:entry_id/comments", to: "comments#index"
       post "/entries/:entry_id/comments", to: "comments#create"
       resources :entries, only: %i[show create update]
+
+      # Playlists
+      resources :playlists, only: %i[index show create update]
+      post "/playlists/:id", to: "playlists#add_item"
+      delete "/playlists/:id", to: "playlists#destroy_item"
 
       # Stars
       namespace :stars do
