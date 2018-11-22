@@ -21,7 +21,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/:id/bookmarks
   def bookmarks
-    render json: @user.bookmarks.includes(:entry), include: :entry
+    render json: @user.bookmarks.includes(entry: :bookmarks), include: :entry
   end
 
   # GET /users/:id/playlists
