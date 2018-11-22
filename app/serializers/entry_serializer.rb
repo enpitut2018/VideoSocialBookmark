@@ -2,9 +2,12 @@
 
 class EntrySerializer < ActiveModel::Serializer
   attributes :id, :url, :title, :video_id, :thumbnail_url, :provider, :num_of_bookmarked, :bookmarked?
-  has_many :bookmarks
-  has_many :comments
-  has_many :users, through: :bookmarks
+  attribute :comments_page_count, if: -> { object.association(:comments).loaded? } do
+    (object.comments.size.to_f / Constants::COMMENTS_PER_PAGE.to_f).ceil
+  end
+  has_many :comments do
+    object.comments.limit(Constants::COMMENTS_PER_PAGE)
+  end
 
   def bookmarked?
     return nil unless scope.api_v1_user_signed_in?

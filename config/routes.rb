@@ -41,8 +41,8 @@ Rails.application.routes.draw do
       get "/search/entry", to: "search#entry"
 
       # Trends
-      get "/trend/:page", to: "trend#index"
-      get "/trend/:page/preload", to: "trend#preload"
+      get "/trend", to: "trend#index"
+      get "/trend/preload", to: "trend#preload"
 
       # Auth
       mount_devise_token_auth_for "User", at: "auth",
