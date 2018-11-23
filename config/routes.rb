@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       # Users
       get "/current_user", to: "users#current_user_show"
       get "/current_user/icon", to: "users#current_user_icon"
+      put "/current_user", to: "users#update"
       resources :users, only: [:show] do
         member do
           get "bookmarks"
@@ -55,7 +56,5 @@ Rails.application.routes.draw do
   end
 
   root "static_pages#index"
-  match "*all", to: "static_pages#index", via: %i[get]
   get "/index", to: "static_pages#index"
-  get "*path", to: redirect("/")
 end
