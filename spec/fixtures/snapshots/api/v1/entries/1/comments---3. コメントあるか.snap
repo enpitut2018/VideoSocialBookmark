@@ -1,20 +1,26 @@
-[
-  {
-    "id": 1,
-    "content": "test",
-    "user": {
+{
+  "data": [
+    {
       "id": 1,
-      "name": null,
-      "image": null
+      "content": "test",
+      "user": {
+        "id": 1,
+        "name": null,
+        "image": null
+      }
+    },
+    {
+      "id": 2,
+      "content": "いいね",
+      "user": {
+        "id": 1,
+        "name": null,
+        "image": null
+      }
     }
-  },
-  {
-    "id": 2,
-    "content": "いいね",
-    "user": {
-      "id": 1,
-      "name": null,
-      "image": null
-    }
-  }
-]
+  ],
+  "total": 2,
+  "page": 1,
+  "per_page": 10,
+  "page_count": 1
+}

@@ -38,7 +38,7 @@ class Api::V1::EntriesController < ApplicationController
   private
 
   def set_entry
-    @entry = Entry.includes([comments: :user, bookmarks: :user]).find(params[:id])
+    @entry = Entry.includes([{ comments: :user }, { bookmarks: :user }, :users]).find(params[:id])
   end
 
   def entry_params

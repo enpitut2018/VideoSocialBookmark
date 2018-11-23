@@ -7,16 +7,7 @@
   "provider": "youtube",
   "num_of_bookmarked": 1,
   "bookmarked?": null,
-  "bookmarks": [
-    {
-      "id": 1,
-      "user": {
-        "id": 1,
-        "name": null,
-        "image": null
-      }
-    }
-  ],
+  "comments_page_count": 1,
   "comments": [
     {
       "id": 1,
@@ -35,13 +26,6 @@
         "name": null,
         "image": null
       }
-    }
-  ],
-  "users": [
-    {
-      "id": 1,
-      "name": null,
-      "image": null
     }
   ]
 }
