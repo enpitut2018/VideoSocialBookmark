@@ -33,7 +33,7 @@ class Api::V1::UsersController < ApplicationController
   # GET /users/:id/bookmarks?page=
   def bookmarks
     page = params[:page].present? ? params[:page].to_i : 1
-    bookmarks = @user.bookmarks
+    bookmarks = @user.bookmarks.includes(entry: :bookmarks)
     bookmarks_paginated = bookmarks.page(page).per(Constants::USERBOOKMARKS_PER_PAGE)
     render json: genPagination(
       bookmarks_paginated,
