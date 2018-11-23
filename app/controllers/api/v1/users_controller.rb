@@ -30,9 +30,18 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # GET /users/:id/bookmarks
+  # GET /users/:id/bookmarks?page=
   def bookmarks
-    render json: @user.bookmarks.includes(:entry), include: :entry
+    page = params[:page].present? ? params[:page].to_i : 1
+    bookmarks = @user.bookmarks
+    bookmarks_paginated = bookmarks.page(page).per(Constants::USERBOOKMARKS_PER_PAGE)
+    render json: genPagination(
+      bookmarks_paginated,
+      [:entry],
+      bookmarks.count,
+      page,
+      Constants::USERBOOKMARKS_PER_PAGE
+    )
   end
 
   # GET /users/:id/playlists

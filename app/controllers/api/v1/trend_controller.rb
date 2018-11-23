@@ -4,23 +4,37 @@ class Api::V1::TrendController < ApplicationController
   include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :set_trend, only: %i[index preload]
 
-  # GET /trend/:page
+  # GET /trend?page
   def index
-    render json: @trend.includes(bookmarks: :user), include: ""
+    render json: genPagination(
+      @trend.includes(bookmarks: :user),
+      [],
+      Entry.count,
+      @page,
+      Constants::TREND_PER_PAGE
+    )
   end
 
-  # GET /trend/:page/preload
+  # GET /trend/preload?page
   def preload
-    render json: @trend.includes([{ comments: :user }, { bookmarks: :user }, :users]), include: [{ comments: :user }, { bookmarks: :user }, :users]
+    render json: genPagination(
+      @trend,
+      [{ comments: :user }, { bookmarks: :user }, :users],
+      Entry.count,
+      @page,
+      Constants::TREND_PER_PAGE
+    )
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_trend
+    @page = trend_params[:page].present? ? trend_params[:page].to_i : 1
     @trend = Entry
              .order("num_of_bookmarked DESC")
-             .page(trend_params[:page])
+             .page(@page)
+             .per(Constants::TREND_PER_PAGE)
   end
 
   # Only allow a trusted parameter "white list" through.
