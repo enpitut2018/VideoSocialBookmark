@@ -56,5 +56,7 @@ Rails.application.routes.draw do
   end
 
   root "static_pages#index"
+  match "*all", to: "static_pages#index", via: %i[get]
   get "/index", to: "static_pages#index"
+  get "*path", to: redirect("/")
 end
