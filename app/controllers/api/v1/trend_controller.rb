@@ -7,7 +7,7 @@ class Api::V1::TrendController < ApplicationController
   # GET /trend?page
   def index
     render json: genPagination(
-      @trend.includes(bookmarks: :user),
+      @trend.preload(:bookmarks),
       [],
       Entry.count,
       @page,
@@ -18,8 +18,8 @@ class Api::V1::TrendController < ApplicationController
   # GET /trend/preload?page
   def preload
     render json: genPagination(
-      @trend,
-      [{ comments: :user }, { bookmarks: :user }, :users],
+      @trend.preload(:comments, :bookmarks),
+      { comments: :user },
       Entry.count,
       @page,
       Constants::TREND_PER_PAGE
