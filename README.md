@@ -1,4 +1,6 @@
 # VideoSocialBookmark
+## エレベータピッチ
+  複数のプラットフォーム上の動画を統括してブックマークし，プレイリストとしてまとめられるサイト
 ## Usage
 1. `$ mkdir workdir && cd workdir`
 2. `$ touch docker-compose.yml Dockerfile`

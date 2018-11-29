@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 class Api::V1::EntriesController < ApplicationController
-  include DeviseTokenAuth::Concerns::SetUserByToken
-
-  before_action :set_entry, only: [:show]
+  before_action :set_entry, only: %i[show update]
   before_action :authenticate_api_v1_user!, only: [:create]
 
   # GET /entries/:id
   def show
-    id = api_v1_user_signed_in? ? current_api_v1_user.id : nil
-    render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users], user_id: id
+    render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users]
   end
 
   # POST /entries
@@ -41,7 +38,7 @@ class Api::V1::EntriesController < ApplicationController
   private
 
   def set_entry
-    @entry = Entry.includes([comments: :user, bookmarks: :user]).find(params[:id])
+    @entry = Entry.includes([{ comments: :user }, { bookmarks: :user }, :users]).find(params[:id])
   end
 
   def entry_params
@@ -49,7 +46,7 @@ class Api::V1::EntriesController < ApplicationController
   end
 
   def entry_update_params
-    params.require(:entry).permit(:original_url, :title, :thumbnail_url)
+    params.require(:entry).permit(:title)
   end
 
   def comment_params

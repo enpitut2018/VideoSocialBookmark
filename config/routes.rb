@@ -6,9 +6,11 @@ Rails.application.routes.draw do
       # Users
       get "/current_user", to: "users#current_user_show"
       get "/current_user/icon", to: "users#current_user_icon"
+      put "/current_user", to: "users#update"
       resources :users, only: [:show] do
         member do
           get "bookmarks"
+          get "playlists"
         end
       end
 
@@ -24,6 +26,11 @@ Rails.application.routes.draw do
       post "/entries/:entry_id/comments", to: "comments#create"
       resources :entries, only: %i[show create update]
 
+      # Playlists
+      resources :playlists, only: %i[index show create update]
+      post "/playlists/:id", to: "playlists#add_item"
+      delete "/playlists/:id", to: "playlists#destroy_item"
+
       # Stars
       namespace :stars do
         get "/entries/:entry_id", to: "entry_stars#show"
@@ -35,8 +42,8 @@ Rails.application.routes.draw do
       get "/search/entry", to: "search#entry"
 
       # Trends
-      get "/trend/:page", to: "trend#index"
-      get "/trend/:page/preload", to: "trend#preload"
+      get "/trend", to: "trend#index"
+      get "/trend/preload", to: "trend#preload"
 
       # Auth
       mount_devise_token_auth_for "User", at: "auth",

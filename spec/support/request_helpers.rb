@@ -25,6 +25,6 @@ module RequestSpecHelper
     black_list.each do |key|
       data.delete(key.to_s)
     end
-    expect(data.to_json).to match_snapshot(api_v1_url + "---" + title)
+    expect(JSON.pretty_generate(data)).to match_snapshot(api_v1_url + "---" + title)
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -32,3 +34,31 @@
 #     thumbnail_url: 'fugagufa.com',
 #     num_of_bookmarked: 8
 # }])
+Playlist.create(
+  [
+    {
+      id: 1,
+      user_id: 1,
+      name: "like",
+      is_private: false
+    }
+  ]
+)
+PlaylistItem.create(
+  [
+    {
+      id: 1,
+      playlist_id: 1,
+      entry_id: 1,
+      prev_id: 0,
+      next_id: 2
+    },
+    {
+      id: 2,
+      playlist_id: 1,
+      entry_id: 1,
+      prev_id: 1,
+      next_id: 0
+    }
+  ]
+)
