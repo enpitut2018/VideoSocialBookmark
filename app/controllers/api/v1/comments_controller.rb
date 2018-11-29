@@ -4,10 +4,18 @@ class Api::V1::CommentsController < ApplicationController
   before_action :authenticate_api_v1_user!, only: %i[create update destroy]
   before_action :set_bookmark, only: %i[update destroy]
 
-  # GET /entries/:entry_id/comments
+  # GET /entries/:entry_id/comments?page=
   def index
-    @comments = Entry.find(params[:entry_id]).comments.includes(:user)
-    render json: @comments, include: :user
+    page = params[:page].present? ? params[:page].to_i : 1
+    comments = Entry.find(params[:entry_id]).comments.order("created_at DESC")
+    comments_paginated = comments.page(page).per(Constants::COMMENTS_PER_PAGE)
+    render json: genPagination(
+      comments_paginated,
+      [:user],
+      comments.count,
+      page,
+      Constants::COMMENTS_PER_PAGE
+    )
   end
 
   # POST entries/:entry_id/comments

@@ -1,13 +1,33 @@
 # frozen_string_literal: true
 
 class Api::V1::SearchController < ApplicationController
-  # GET /search/entry?[url=]
+  before_action :set_entry, only: %i[entry]
+
+  # GET /search/entry?title=&page=
   def entry
-    if params.key?(:url)
-      entry = Entry.includes([comments: :user, bookmarks: :user]).find_by(url: params[:url])
-      render json: entry, include: [{ comments: :user }, { bookmarks: :user }, :users]
-    else
-      render json: { status: 501, message: "invalid parameter" }, status: :not_implemented
-    end
+    render json: genPagination(
+      @result.preload(:bookmarks),
+      [],
+      @total,
+      @page,
+      Constants::SEARCH_PER_PAGE
+    )
+  end
+
+  private
+
+  def set_entry
+    render notiong: true, status: :bad_request if search_params[:title].blank?
+    @title = search_params[:title]
+    @page = search_params[:page].present? ? search_params[:page].to_i : 1
+    @search = Entry.where("title LIKE ?", "%#{params[:title]}%")
+    @total = @search.length
+    @result = @search.order("num_of_bookmarked DESC")
+                     .page(@page)
+                     .per(Constants::SEARCH_PER_PAGE)
+  end
+
+  def search_params
+    params.permit(:page, :title)
   end
 end

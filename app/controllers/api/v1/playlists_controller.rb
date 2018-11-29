@@ -6,13 +6,13 @@ class Api::V1::PlaylistsController < ApplicationController
 
   # GET /playlists
   def index
-    playlists = Playlist.where(user_id: current_api_v1_user.id)
+    playlists = Playlist.where(user_id: current_api_v1_user.id).includes(playlist_items: { entry: :bookmarks })
     render json: playlists, include: { playlist_items: :entry }
   end
 
   # GET /playlists/:id
   def show
-    render json: @playlist, include: { playlist_items: :entry }
+    render json: @playlist, include: { playlist_items: { entry: :bookmarks } }
   end
 
   # POST /playlists
@@ -110,7 +110,7 @@ class Api::V1::PlaylistsController < ApplicationController
 
   def set_playlist
     # TODO: private playlist
-    @playlist = Playlist.includes(:playlist_items).find(params[:id])
+    @playlist = Playlist.includes(playlist_items: { entry: :bookmarks }).find(params[:id])
   end
 
   def playlist_params
