@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Api::V1::TrendController < ApplicationController
-  include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :set_trend, only: %i[index preload]
 
   # GET /trend?page
