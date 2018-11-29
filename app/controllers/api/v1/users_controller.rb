@@ -38,7 +38,7 @@ class Api::V1::UsersController < ApplicationController
     bookmarks_paginated = bookmarks.page(page).per(Constants::USERBOOKMARKS_PER_PAGE)
     render json: genPagination(
       bookmarks_paginated,
-      [{ entry: :bookmarks }],
+      [{ entry: :bookmarks }, :users_comment],
       bookmarks.count,
       page,
       Constants::USERBOOKMARKS_PER_PAGE
