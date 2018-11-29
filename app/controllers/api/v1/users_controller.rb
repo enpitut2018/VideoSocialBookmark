@@ -11,7 +11,8 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /current_user/icon
   def current_user_icon
-    render json: { "url": rails_blob_path(current_api_v1_user.avatar) }
+    render json: { "url": rails_blob_path(current_api_v1_user.avatar) } if current_api_v1_user.avatar.attached?
+    render json: {}, status: :not_found
   end
 
   # GET /users/:id
@@ -37,7 +38,7 @@ class Api::V1::UsersController < ApplicationController
     bookmarks_paginated = bookmarks.page(page).per(Constants::USERBOOKMARKS_PER_PAGE)
     render json: genPagination(
       bookmarks_paginated,
-      [:entry],
+      [{ entry: :bookmarks }],
       bookmarks.count,
       page,
       Constants::USERBOOKMARKS_PER_PAGE
@@ -46,7 +47,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/:id/playlists
   def playlists
-    render json: @user.playlists, include: :playlist_items
+    render json: @user.playlists.includes(playlist_items: { entry: :bookmarks }), include: { playlist_items: { entry: :bookmarks } }
   end
 
   private
