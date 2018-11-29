@@ -7,7 +7,7 @@ class Api::V1::CommentsController < ApplicationController
   # GET /entries/:entry_id/comments?page=
   def index
     page = params[:page].present? ? params[:page].to_i : 1
-    comments = Entry.find(params[:entry_id]).comments
+    comments = Entry.find(params[:entry_id]).comments.order("created_at DESC")
     comments_paginated = comments.page(page).per(Constants::COMMENTS_PER_PAGE)
     render json: genPagination(
       comments_paginated,

@@ -1,8 +1,8 @@
 {
   "data": [
     {
-      "id": 1,
-      "content": "test",
+      "id": 2,
+      "content": "いいね",
       "user": {
         "id": 1,
         "name": null,
@@ -10,8 +10,8 @@
       }
     },
     {
-      "id": 2,
-      "content": "いいね",
+      "id": 1,
+      "content": "test",
       "user": {
         "id": 1,
         "name": null,
