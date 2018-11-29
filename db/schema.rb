@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_21_184310) do
+ActiveRecord::Schema.define(version: 2018_11_28_230140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,7 +44,8 @@ ActiveRecord::Schema.define(version: 2018_11_21_184310) do
     t.string "original_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "entry_id"], name: "index_bookmarks_on_user_id_and_entry_id"
+    t.index ["entry_id"], name: "index_bookmarks_on_entry_id"
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -53,7 +54,7 @@ ActiveRecord::Schema.define(version: 2018_11_21_184310) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "entry_id"
-    t.index ["user_id", "entry_id"], name: "index_comments_on_user_id_and_entry_id"
+    t.index ["entry_id", "user_id"], name: "index_comments_on_entry_id_and_user_id"
   end
 
   create_table "entries", force: :cascade do |t|
@@ -66,6 +67,8 @@ ActiveRecord::Schema.define(version: 2018_11_21_184310) do
     t.text "video_id"
     t.text "provider"
     t.index ["num_of_bookmarked"], name: "index_entries_on_num_of_bookmarked"
+    t.index ["title"], name: "title_hashidx", using: :hash
+    t.index ["url"], name: "url_hashidx", using: :hash
   end
 
   create_table "entry_stars", force: :cascade do |t|
@@ -83,6 +86,8 @@ ActiveRecord::Schema.define(version: 2018_11_21_184310) do
     t.integer "next_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["entry_id"], name: "index_playlist_items_on_entry_id"
+    t.index ["playlist_id"], name: "index_playlist_items_on_playlist_id"
   end
 
   create_table "playlists", force: :cascade do |t|
@@ -91,6 +96,7 @@ ActiveRecord::Schema.define(version: 2018_11_21_184310) do
     t.boolean "is_private"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_playlists_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
