@@ -11,7 +11,8 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /current_user/icon
   def current_user_icon
-    render json: { "url": rails_blob_path(current_api_v1_user.avatar) }
+    render json: { "url": rails_blob_path(current_api_v1_user.avatar) } if current_api_v1_user.avatar.attached?
+    render json: {}, status: :not_found
   end
 
   # GET /users/:id
