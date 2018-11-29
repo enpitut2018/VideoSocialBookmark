@@ -9,7 +9,7 @@ class Api::V1::TrendController < ApplicationController
     render json: genPagination(
       @trend.preload(:bookmarks),
       [],
-      Entry.count,
+      @trend_num,
       @page,
       Constants::TREND_PER_PAGE
     )
@@ -20,7 +20,7 @@ class Api::V1::TrendController < ApplicationController
     render json: genPagination(
       @trend.preload(:comments, :bookmarks),
       { comments: :user },
-      Entry.count,
+      @trend_num,
       @page,
       Constants::TREND_PER_PAGE
     )
@@ -35,6 +35,8 @@ class Api::V1::TrendController < ApplicationController
              .order("num_of_bookmarked DESC")
              .page(@page)
              .per(Constants::TREND_PER_PAGE)
+    entry_count_about = ActiveRecord::Base.connection.execute("select reltuples from pg_class where relname='entries';")[0]["reltuples"]
+    @trend_num = Constants::TREND_MAX_NUM < entry_count_about ? Constants::TREND_MAX_NUM : Entry.count
   end
 
   # Only allow a trusted parameter "white list" through.
