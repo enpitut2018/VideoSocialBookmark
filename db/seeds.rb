@@ -74,7 +74,7 @@ def createPlaylist(data, cnt)
   user = User.find_or_create_by(name: detail["user_name"]) do |user|
     user.name = detail["user_name"]
     user.password = "newgame"
-    user.email = cnt.to_s + "@video-social-bookmark.com"
+    user.email = cnt.to_s + "@example.com"
   end
 
   # Create Playlist
