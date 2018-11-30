@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_28_230140) do
+ActiveRecord::Schema.define(version: 2018_11_30_025617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,7 +67,6 @@ ActiveRecord::Schema.define(version: 2018_11_28_230140) do
     t.text "video_id"
     t.text "provider"
     t.index ["num_of_bookmarked"], name: "index_entries_on_num_of_bookmarked"
-    t.index ["title"], name: "title_hashidx", using: :hash
     t.index ["url"], name: "url_hashidx", using: :hash
   end
 
