@@ -46,7 +46,7 @@ class Api::V1::UsersController < ApplicationController
 
   # GET /users/:id/playlists
   def playlists
-    render json: @user.playlists, include: :playlist_items
+    render json: @user.playlists, include: { playlist_items: :entry }
   end
 
   private
