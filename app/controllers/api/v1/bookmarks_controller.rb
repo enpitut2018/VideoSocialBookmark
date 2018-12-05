@@ -22,7 +22,6 @@ class Api::V1::BookmarksController < ApplicationController
   def destroy
     @bookmark = Bookmark.find_by(entry_id: bookmark_params[:entry_id],
                                  user_id: current_api_v1_user.id)
-    redirect_to controller: "api", action: "routing_error" if @bookmark.nil?
     @bookmark&.destroy
   end
 
