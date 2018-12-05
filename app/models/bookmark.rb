@@ -7,6 +7,8 @@ class Bookmark < ApplicationRecord
   after_save :update_entry_num_of_bookmarked
   after_destroy :update_entry_num_of_bookmarked
 
+  validates :entry_id, uniqueness: { :scope => :user_id }
+
   private
 
   def update_entry_num_of_bookmarked
