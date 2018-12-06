@@ -67,13 +67,13 @@ class Api::V1::PlaylistsController < ApplicationController
       prev_item = PlaylistItem.find(prev_id)
       render status: :bad_request if prev_item.nil?
 
-      prev_item.update_attribute = { next_id: id }
+      prev_item.update(next_id: id)
     end
     if next_id.present?
       next_item = PlaylistItem.find(next_id)
       render status: bad_request if next_item.nil?
 
-      next_item.update_attribute = { prev_id: id }
+      next_item.update(prev_id: id)
     end
 
     render json: playlist_item
