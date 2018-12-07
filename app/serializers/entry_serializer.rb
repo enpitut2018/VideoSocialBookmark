@@ -6,7 +6,7 @@ class EntrySerializer < ActiveModel::Serializer
     (object.comments.size.to_f / Constants::COMMENTS_PER_PAGE.to_f).ceil
   end
   has_many :comments do
-    object.comments.limit(Constants::COMMENTS_PER_PAGE)
+    object.comments.order("created_at DESC").limit(Constants::COMMENTS_PER_PAGE).preload(:user)
   end
 
   def bookmarked?

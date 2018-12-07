@@ -5,8 +5,7 @@ class ApplicationController < ActionController::API
   serialization_scope :view_context
 
   def genPagination(obj, includes, total, page, per_page)
-    obj.includes(includes)
-    obj_json = ActiveModel::SerializableResource.new(obj, include: includes, scope: view_context)
+    obj_json = ActiveModelSerializers::SerializableResource.new(obj, include: includes, scope: view_context)
     {
       data: obj_json,
       total: total,

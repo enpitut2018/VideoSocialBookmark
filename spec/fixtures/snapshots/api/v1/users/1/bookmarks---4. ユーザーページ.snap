@@ -10,7 +10,12 @@
         "thumbnail_url": "https://img.youtube.com/vi/C5WJXffAT4A/maxresdefault.jpg",
         "provider": "youtube",
         "num_of_bookmarked": 1,
-        "bookmarked?": null
+        "bookmarked?": null,
+        "comments_page_count": 1
+      },
+      "users_comment": {
+        "id": 1,
+        "content": "test"
       }
     }
   ],
