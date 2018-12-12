@@ -17,6 +17,8 @@ class Entry < ApplicationRecord
 
   before_save :fetchVideoDataIfNot
 
+  validates :video_id, uniqueness: { scope: [:provider] }
+
   def self.find_or_initialize_by_original_url(original_url)
     find_or_initialize_by(url: original_url_to_url(original_url))
   end
