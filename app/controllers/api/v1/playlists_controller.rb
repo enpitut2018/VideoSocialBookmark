@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1::PlaylistsController < ApplicationController
-  before_action :set_playlist, only: %i[show update add_item destroy]
-  before_action :authenticate_api_v1_user!, only: %i[index create update add_item destroy_item destroy]
+  before_action :set_playlist, only: %i[show update add_item]
+  before_action :authenticate_api_v1_user!, only: %i[index create update add_item destroy_item]
 
   # GET /playlists
   def index
@@ -98,11 +98,12 @@ class Api::V1::PlaylistsController < ApplicationController
 
   # DELETE /playlists
   def destroy
-    if @playlist.nil? || @playlist.user != current_api_v1_user
-      render status: :bad_request
+    @playlist = Playlist.find(playlist_params[:id])
+    if @playlist.nil? || @playlist[:user_id] != current_api_v1_user.id
+      render status: :bad_request, json: {}
     else
       @playlist.destroy
-      render status: :ok
+      render status: :ok, json: {}
     end
   end
 
@@ -114,7 +115,7 @@ class Api::V1::PlaylistsController < ApplicationController
   end
 
   def playlist_params
-    params.require(:playlist).permit(:name, :is_private)
+    params.require(:playlist).permit(:id, :name, :is_private)
   end
 
   def playlist_update_params

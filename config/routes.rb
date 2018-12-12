@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       resources :playlists, only: %i[index show create update]
       post "/playlists/:id", to: "playlists#add_item"
       delete "/playlists/:id", to: "playlists#destroy_item"
+      delete "/playlists", to: "playlists#destroy"
 
       # Stars
       namespace :stars do
