@@ -23,6 +23,29 @@ class Entry < ApplicationRecord
     find_or_initialize_by(url: original_url_to_url(original_url))
   end
 
+  def self.find_entry_by_original_url(original_url)
+    url = original_url_to_url(original_url)
+
+    entry = Entry.find_by(url: url)
+    return entry unless entry.nil?
+
+    is_http = url.length > 5 && url[0..4] == "http:"
+    if is_http
+      protocol_exchanged_url = url.gsub(/^http:/, "https:")
+      entry = Entry.find_by(url: protocol_exchanged_url)
+      return entry unless entry.nil?
+    end
+
+    is_https = url.length > 6 && url[0..5] == "https:"
+    if is_https
+      protocol_exchanged_url = url.gsub(/^https:/, "http:")
+      entry = Entry.find_by(url: protocol_exchanged_url)
+      return entry unless entry.nil?
+    end
+
+    nil
+  end
+
   def self.original_url_to_url(original_url)
     #  TODO : パラメータなどをカットする処理を実装する
     original_url
