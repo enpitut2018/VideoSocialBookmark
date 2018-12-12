@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1::PlaylistsController < ApplicationController
-  before_action :set_playlist, only: %i[show update add_item destroy]
-  before_action :authenticate_api_v1_user!, only: %i[index create update add_item destroy_item destroy]
+  before_action :set_playlist, only: %i[show update add_item]
+  before_action :authenticate_api_v1_user!, only: %i[index create update add_item destroy_item]
 
   # GET /playlists
   def index
@@ -98,6 +98,7 @@ class Api::V1::PlaylistsController < ApplicationController
 
   # DELETE /playlists
   def destroy
+    @playlist = perams.require(:playlist).permit(:id)
     if @playlist.nil? || @playlist.user != current_api_v1_user
       render status: :bad_request
     else
