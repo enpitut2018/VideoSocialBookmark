@@ -4,6 +4,17 @@ class Api::V1::EntriesController < ApplicationController
   before_action :set_entry, only: %i[show update]
   before_action :authenticate_api_v1_user!, only: [:create]
 
+  # GET /entries/find?[url]
+  def find
+    render status: :bad_request if params[:url].blank?
+    entry = Entry.find_entry_by_original_url(params[:url])
+    if entry.nil?
+      render json: {}
+    else
+      render json: entry
+    end
+  end
+
   # GET /entries/:id
   def show
     render json: @entry, include: [{ comments: :user }, { bookmarks: :user }, :users]

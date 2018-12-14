@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       get "/entries/:entry_id/comments", to: "comments#index"
       post "/entries/:entry_id/comments", to: "comments#create"
       resources :entries, only: %i[show create update]
+      get "/find", to: "entries#find"
 
       # Playlists
       resources :playlists, only: %i[index show create update]
