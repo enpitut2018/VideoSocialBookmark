@@ -1,6 +1,6 @@
 # VideoSocialBookmark
 ## エレベータピッチ
-  複数のプラットフォーム上の動画を統括してブックマークし，プレイリストとしてまとめられるサイト
+複数の動画サービスを切り替えることなく動画を探したり観たりしたい動画サービス利用者向けの、VideoSocialBookmarkというソーシャルブックマークサービスです。はてぶやRedditとは違って、動画を再生したりプレイリストを作成する機能が備わっています。
 ## Usage
 1. `$ mkdir workdir && cd workdir`
 2. `$ touch docker-compose.yml Dockerfile`
