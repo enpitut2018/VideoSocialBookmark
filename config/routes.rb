@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       post "/playlists/:id", to: "playlists#add_item"
       delete "/playlists/:id", to: "playlists#destroy_item"
       delete "/playlists", to: "playlists#destroy"
+      post "/playlists?from=:id", to: "playlists#save"
 
       # Stars
       namespace :stars do
@@ -46,6 +47,10 @@ Rails.application.routes.draw do
       # Trends
       get "/trend", to: "trend#index"
       get "/trend/preload", to: "trend#preload"
+
+      # PlaylistTrends
+      get "/playlists/trend", to: "trend#index"
+      get "/playlists/trend/preload", to: "trend#preload"
 
       # Auth
       mount_devise_token_auth_for "User", at: "auth",

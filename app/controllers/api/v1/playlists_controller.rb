@@ -107,6 +107,19 @@ class Api::V1::PlaylistsController < ApplicationController
     end
   end
 
+  # POST /playlists?from=:id
+  def save
+    originPlaylist = Playlist.find(params[:id])
+    playlist = originPlaylist.deep_dup
+    playlist[:user_id] = current_api_v1_user.id
+    originPlaylist[:num_of_saved] = originPlaylist[:num_of_saved] ? originPlaylist[:num_of_saved] + 1 : 1
+    if playlist.save && originPlaylist.save
+      render json: playlist
+    else
+      render json: playlist.errors, status: :unprocessable_entity unless playlist.save
+    end
+  end
+
   private
 
   def set_playlist
