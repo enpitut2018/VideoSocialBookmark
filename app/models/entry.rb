@@ -94,6 +94,9 @@ class Entry < ApplicationRecord
       end
     end
 
+    logger.debug { id }
+    logger.debug { title }
+    logger.debug { provider }
     [id, title, thumbnail, provider]
   end
 

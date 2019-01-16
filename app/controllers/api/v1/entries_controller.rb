@@ -25,6 +25,8 @@ class Api::V1::EntriesController < ApplicationController
     entry = Entry.find_or_initialize_by_original_url(entry_params[:original_url])
     render json: entry.errors, status: :unprocessable_entity && return unless entry.save
 
+    logger.debug { "succesfull create entry." }
+
     bookmark = entry.bookmarks.find_or_initialize_by(user_id: current_api_v1_user.id)
     render json: bookmark.errors, status: :unprocessable_entity && return unless bookmark.save
 
