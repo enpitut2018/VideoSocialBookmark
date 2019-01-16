@@ -11,6 +11,7 @@ class Api::V1::BookmarksController < ApplicationController
       @entry = Entry.create_or_get(@bookmark.original_url)
       @bookmark.entry_id = @entry.id
     end
+
     if @bookmark.save
       render json: @bookmark, status: :created
     else
