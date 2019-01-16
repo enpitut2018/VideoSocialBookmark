@@ -110,8 +110,10 @@ class Api::V1::PlaylistsController < ApplicationController
   # POST /playlists?from=:id
   def save
     originPlaylist = Playlist.find(params[:id])
-    playlist = originPlaylist.deep_dup
+    playlist = originPlaylist.amoeba_dup
     playlist[:user_id] = current_api_v1_user.id
+    playlist[:num_of_saved] = 0
+
     originPlaylist[:num_of_saved] = originPlaylist[:num_of_saved] ? originPlaylist[:num_of_saved] + 1 : 1
     if playlist.save && originPlaylist.save
       render json: playlist
