@@ -16,7 +16,7 @@ class Entry < ApplicationRecord
   has_many :users, through: :bookmarks
 
   after_initialize :fetchVideoDataIfNot
-  validates :video_id, uniqueness: { scope: [:provider, :title] }
+  validates :video_id, uniqueness: { scope: %i[provider title] }
 
   def self.find_or_initialize_by_original_url(original_url)
     find_or_initialize_by(url: original_url_to_url(original_url))
