@@ -107,6 +107,28 @@ class Api::V1::PlaylistsController < ApplicationController
     end
   end
 
+  # POST /playlists/save/:id
+  def save
+    originPlaylist = Playlist.find(params[:id])
+
+    # playlist = originPlaylist.deep_clone include: %i[next_id prev_id], skip_missing_associations: true
+    # playlist = originPlaylist.deep_clone do |original, kopy|
+    #   kopy.next_id = original.next_id if kopy.respond_to?(:cloned_from_id)
+    #   kopy.prev_id = original.prev_id
+    # end
+
+    # playlist[:user_id] =
+    # playlist[:num_of_saved] = 0
+    playlist = originPlaylist.deep_duplicate(current_api_v1_user.id)
+
+    originPlaylist[:num_of_saved] = originPlaylist[:num_of_saved] ? originPlaylist[:num_of_saved] + 1 : 1
+    if playlist.save && originPlaylist.save
+      render json: playlist
+    else
+      render json: playlist.errors, status: :unprocessable_entity unless playlist.save
+    end
+  end
+
   private
 
   def set_playlist

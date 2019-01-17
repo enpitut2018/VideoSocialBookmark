@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
       # Playlists
       resources :playlists, only: %i[index show create update]
+      post "/playlists/save/:id", to: "playlists#save"
       post "/playlists/:id", to: "playlists#add_item"
       delete "/playlists/:id", to: "playlists#destroy_item"
       delete "/playlists", to: "playlists#destroy"
@@ -46,6 +47,10 @@ Rails.application.routes.draw do
       # Trends
       get "/trend", to: "trend#index"
       get "/trend/preload", to: "trend#preload"
+
+      # PlaylistTrends
+      get "/playlists/trend", to: "trend#index"
+      get "/playlists/trend/preload", to: "trend#preload"
 
       # Auth
       mount_devise_token_auth_for "User", at: "auth",
