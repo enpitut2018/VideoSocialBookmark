@@ -15,9 +15,8 @@ class Entry < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :users, through: :bookmarks
 
-  before_save :fetchVideoDataIfNot
-
-  validates :video_id, uniqueness: { scope: [:provider] }
+  after_initialize :fetchVideoDataIfNot
+  validates :video_id, uniqueness: { scope: %i[provider title] }
 
   def self.find_or_initialize_by_original_url(original_url)
     find_or_initialize_by(url: original_url_to_url(original_url))
@@ -94,6 +93,9 @@ class Entry < ApplicationRecord
       end
     end
 
+    logger.debug { id }
+    logger.debug { title }
+    logger.debug { provider }
     [id, title, thumbnail, provider]
   end
 
